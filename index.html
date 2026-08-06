@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMO</title>
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        /* ===== LUMO Orb ===== */
+        :root {
+            --orb-core: #6ee7ff;
+            --orb-core2: #7c7bff;
+            --orb-edge: #b083ff;
+            --orb-idle-speed: 6s;
+            --orb-listen-speed: 2.4s;
+        }
+
+        .orb-wrap {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+        }
+
+        .orb-bloom {
+            position: absolute;
+            inset: -50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110,231,255,0.18), rgba(124,123,255,0.10) 45%, transparent 70%);
+            filter: blur(10px);
+            animation: orb-breathe var(--orb-idle-speed) ease-in-out infinite;
+        }
+
+        .orb-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--orb-core), var(--orb-edge), var(--orb-core2), var(--orb-core));
+            filter: blur(16px);
+            opacity: 0.85;
+            animation: orb-spin 5s linear infinite, orb-breathe var(--orb-idle-speed) ease-in-out infinite;
+        }
+
+        .orb-core {
+            position: absolute;
+            inset: 22px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0) 40%),
+                radial-gradient(circle at 60% 70%, var(--orb-core2), var(--orb-core) 55%, #1b1440 100%);
+            box-shadow:
+                0 0 35px rgba(110,231,255,0.55),
+                0 0 80px rgba(124,123,255,0.35),
+                inset 0 0 26px rgba(255,255,255,0.25);
+            animation: orb-breathe var(--orb-idle-speed) ease-in-out infinite;
+        }
+
+        .orb-shimmer {
+            position: absolute;
+            inset: 22px;
+            border-radius: 50%;
+            background: conic-gradient(from 90deg,
+                rgba(255,255,255,0.35), transparent 20%, transparent 60%, rgba(255,255,255,0.25) 80%);
+            mix-blend-mode: overlay;
+            animation: orb-spin 9s linear infinite reverse;
+        }
+
+        @keyframes orb-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes orb-breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* Listening state — everything quickens + glows harder */
+        .orb-wrap.listening .orb-bloom,
+        .orb-wrap.listening .orb-ring,
+        .orb-wrap.listening .orb-core {
+            animation-duration: var(--orb-listen-speed);
+        }
+        .orb-wrap.listening .orb-ring {
+            animation-duration: 1.6s, var(--orb-listen-speed);
+        }
+        .orb-wrap.listening .orb-core {
+            box-shadow:
+                0 0 50px rgba(110,231,255,0.75),
+                0 0 110px rgba(124,123,255,0.5),
+                inset 0 0 26px rgba(255,255,255,0.3);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .orb-bloom, .orb-ring, .orb-core, .orb-shimmer { animation: none !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="main">
+        <div class="image-container">
+            <div class="orb-wrap" id="orb">
+                <div class="orb-bloom"></div>
+                <div class="orb-ring"></div>
+                <div class="orb-core"></div>
+                <div class="orb-shimmer"></div>
+            </div>
+            <h1>L U M O</h1>
+            <!-- <p>Welcome Hridesh Thakur</p> -->
+            <p>I'm a Voice Assistant, LUMO. How may I help you?</p>
+        </div>
+        <div class="input">
+            <button class="talk"><b class="fas fa-microphone-alt">
+                <!-- Click here to speak -->  
+            </b></button>
+            <h1 class="content"> Click here to speak</h1>
+            
+        </div>
+    </section>
+    <script src="app_testing.js"></script>
+</body>
+
+</html>
