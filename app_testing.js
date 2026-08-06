@@ -14,6 +14,7 @@ function wishMe() {
   if (hour < 12) speak("Good Morning Boss...");
   else if (hour < 17) speak("Good Afternoon Master...");
   else speak("Good Evening Sir...");
+  speak("How may I help you?");
 }
 
 window.addEventListener('load', () => {
@@ -34,7 +35,7 @@ const commandDB = [
   { keywords: ['open facebook'], action: () => { window.open("https://facebook.com", "_blank"); return "Opening Facebook..."; } },
   { keywords: ['calculator'], action: () => { window.open('https://www.google.com/search?q=calculator', '_blank'); return "Opening Calculator"; } },
   {
-    keywords: ['what is', 'who is', 'what are'],
+    keywords: ['what', 'who', 'what are', 'who is', 'what is', 'search for', 'find information about'],
     action: (msg) => {
       window.open(`https://www.google.com/search?q=${msg.replace(/ /g, "+")}`, "_blank");
       return "This is what I found on the internet regarding " + msg;
