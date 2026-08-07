@@ -41,7 +41,7 @@ recognition.onresult = (event) => {
     const transcript = event.results[currentIndex][0].transcript;
     content.textContent = transcript;
     takeCommand(transcript.toLowerCase());
-};
+};  
 
 btn.addEventListener('click', () => {
     content.textContent = "Listening...";
