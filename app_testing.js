@@ -21,10 +21,8 @@ window.addEventListener('load', () => {
     speak("Initializing Loo-moh...");
     // speak("Hello! I am Lumo. How can I help you?");
     wishMe();
-
     recognition.start(); 
 });
-
 
 // opening apps
 const commandDB = [
