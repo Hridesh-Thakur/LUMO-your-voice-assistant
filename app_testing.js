@@ -22,7 +22,7 @@ window.addEventListener('load', () => {
     // speak("Hello! I am Lumo. How can I help you?");
     wishMe();
 
-    recognition.start();
+    recognition.start(); 
 });
 
 
