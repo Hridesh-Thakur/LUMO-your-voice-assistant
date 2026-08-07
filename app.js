@@ -36,7 +36,7 @@ window.addEventListener('load', () => {
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 
-recognition.onresult = (event) => {
+recognition.onresult = (event) => { 
     const currentIndex = event.resultIndex;
     const transcript = event.results[currentIndex][0].transcript;
     content.textContent = transcript;
