@@ -16,7 +16,7 @@ function wishMe() {
   else speak("Good Evening Sir...");
   speak("How may I help you?");
 }
-
+ 
 window.addEventListener('load', () => {
     speak("Initializing Loo-moh...");
     // speak("Hello! I am Lumo. How can I help you?");
