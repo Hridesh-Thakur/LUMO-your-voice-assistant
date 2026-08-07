@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
 
 // opening apps
 const commandDB = [
-  { keywords: ['hey', 'hello'], reply: "Hello Sir, How May I Help You?" },
+  { keywords: ['hey', 'hello'], reply: "Hello Sir, How May I Help You?" },  
   { keywords: ['open google'], action: () => { window.open("https://google.com", "_blank"); return "Opening Google..."; } },
   { keywords: ['open instagram'], action: () => { window.open("https://www.instagram.com/", "_blank"); return "Opening Instagram..."; } },
   { keywords: ['open youtube'], action: () => { window.open("https://youtube.com", "_blank"); return "Opening Youtube..."; } },
