@@ -172,9 +172,13 @@ recognition.onresult = (event) => {
             text.includes("lumo.") ||
             text.includes("L U M O") ||
             text.includes("l umo") ||
-            text.includes("lumo!") ||
+            text.includes("luno") ||
             text.includes("l u m o") ||
-            text.includes("lumo lumo") ||
+            text.includes("hey lumo") ||
+            text.includes("hey luno") ||
+            text.includes("help you and so") ||
+            text.includes("you know") ||
+            text.includes("and you") ||
             text.startsWith("lumo")
         ) {
 
