@@ -178,7 +178,7 @@ recognition.lang = 'en-IN';
 
 // Matches "lumo" (and common mis-hearings) ANYWHERE in the sentence —
 // start, middle, or end. e.g. "what's the time lumo" still works.
-const WAKE_WORD = /\b(lumo|luno|lu ?mo|l ?u ?m ?o)\b/i;
+const WAKE_WORD = /\b(lumo|luno|you know|luno|l u n o|lu ?mo|l ?u ?m ?o)\b/i;
 
 let recognitionActive = false;
 
