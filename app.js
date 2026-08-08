@@ -1199,10 +1199,3 @@ function takeCommand(message) {
     }
 
 }
-
-
-
-
-
-
-
