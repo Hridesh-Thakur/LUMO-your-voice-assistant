@@ -1200,3 +1200,5 @@ function takeCommand(message) {
 
 }
 
+
+
