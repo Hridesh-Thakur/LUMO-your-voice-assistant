@@ -1192,7 +1192,7 @@ function takeCommand(message) {
       const finalText = "Place your cursor where you want the new page → Press Ctrl + Enter or go to 'Insert' → 'Page Break'.";
       speak(finalText);
         }
-    else {
+    else {   
       window.open(`https://www.google.com/search?q=${message.replace(" ", "+")}`, "_blank");
       const finalText = "I found some information for " + message + " on Google";
       speak(finalText);
