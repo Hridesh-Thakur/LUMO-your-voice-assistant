@@ -186,7 +186,7 @@ recognition.onresult = (event) => {
   const transcript = event.results[event.results.length - 1][0].transcript;
   const text = transcript.toLowerCase().trim();
 
-  console.log("Heard:", text);
+  console.log("Heard:", text); 
 
   if (!WAKE_WORD.test(text)) {
     // No wake word anywhere in this sentence — ignore it, stay in always-on mode.
