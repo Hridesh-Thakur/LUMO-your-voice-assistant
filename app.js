@@ -1202,3 +1202,7 @@ function takeCommand(message) {
 
 
 
+
+
+
+
