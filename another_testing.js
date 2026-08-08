@@ -206,7 +206,7 @@ const commandDB = [
   { keywords: ['how to reduce stress'], reply: "Try deep breathing, short walks, journaling, or talking to someone you trust." },
 
   // ---- More personality ----
-  { keywords: ['what is your name'], reply: "I'm loo-moh, your voice assistant." },
+  { keywords: ['what is your name'], reply: "I'm LUMO, your voice assistant." },
   { keywords: ['who made you', 'who created you', 'who is your creator'], reply: "I was created by Hridesh Thakur." },
   { keywords: ['how old are you'], reply: "I don't age — I'm just code, always up to date!" },
   { keywords: ['where do you live'], reply: "I live right here in your browser." },
@@ -357,8 +357,8 @@ const commandDB = [
   { keywords: ["what is ruby", "tell me about ruby"], reply: "Ruby is a dynamic language known for developer happiness and the Rails framework." },
 
   // ---- Git commands ----
-  { keywords: ["git clone"], reply: "git clone url copies a remote repository to your local machine." },
-  { keywords: ["git commit"], reply: "git commit -m message saves your staged changes with a message." },
+  { keywords: ["git clone"], reply: "git clone <url> copies a remote repository to your local machine." },
+  { keywords: ["git commit"], reply: "git commit -m \"message\" saves your staged changes with a message." },
   { keywords: ["git push"], reply: "git push uploads your local commits to the remote repository." },
   { keywords: ["git pull"], reply: "git pull fetches and merges changes from the remote repository." },
   { keywords: ["git branch"], reply: "git branch lists, creates, or deletes branches." },
@@ -955,7 +955,360 @@ const commandDB = [
   { keywords: ["what is the largest fish"], reply: "The whale shark is the largest fish in the world." },
   { keywords: ["what is the coldest place on earth"], reply: "Vostok Station in Antarctica recorded one of the coldest temperatures on Earth." },
   { keywords: ["what is the hottest place on earth"], reply: "Death Valley in California has recorded some of the highest temperatures on Earth." },
-  { keywords: ["what is the driest place on earth"], reply: "The Atacama Desert in Chile is considered the driest place on Earth." },];
+  { keywords: ["what is the driest place on earth"], reply: "The Atacama Desert in Chile is considered the driest place on Earth." },
+
+  // ---- Indian states and capitals ----
+  { keywords: ["capital of andhra pradesh"], reply: "Amaravati is the capital of Andhra Pradesh." },
+  { keywords: ["capital of arunachal pradesh"], reply: "Itanagar is the capital of Arunachal Pradesh." },
+  { keywords: ["capital of assam"], reply: "Dispur is the capital of Assam." },
+  { keywords: ["capital of bihar"], reply: "Patna is the capital of Bihar." },
+  { keywords: ["capital of chhattisgarh"], reply: "Raipur is the capital of Chhattisgarh." },
+  { keywords: ["capital of goa"], reply: "Panaji is the capital of Goa." },
+  { keywords: ["capital of gujarat"], reply: "Gandhinagar is the capital of Gujarat." },
+  { keywords: ["capital of haryana"], reply: "Chandigarh is the capital of Haryana." },
+  { keywords: ["capital of himachal pradesh"], reply: "Shimla is the capital of Himachal Pradesh." },
+  { keywords: ["capital of jharkhand"], reply: "Ranchi is the capital of Jharkhand." },
+  { keywords: ["capital of karnataka"], reply: "Bengaluru is the capital of Karnataka." },
+  { keywords: ["capital of kerala"], reply: "Thiruvananthapuram is the capital of Kerala." },
+  { keywords: ["capital of madhya pradesh"], reply: "Bhopal is the capital of Madhya Pradesh." },
+  { keywords: ["capital of maharashtra"], reply: "Mumbai is the capital of Maharashtra." },
+  { keywords: ["capital of manipur"], reply: "Imphal is the capital of Manipur." },
+  { keywords: ["capital of meghalaya"], reply: "Shillong is the capital of Meghalaya." },
+  { keywords: ["capital of mizoram"], reply: "Aizawl is the capital of Mizoram." },
+  { keywords: ["capital of nagaland"], reply: "Kohima is the capital of Nagaland." },
+  { keywords: ["capital of odisha"], reply: "Bhubaneswar is the capital of Odisha." },
+  { keywords: ["capital of punjab"], reply: "Chandigarh is the capital of Punjab." },
+  { keywords: ["capital of rajasthan"], reply: "Jaipur is the capital of Rajasthan." },
+  { keywords: ["capital of sikkim"], reply: "Gangtok is the capital of Sikkim." },
+  { keywords: ["capital of tamil nadu"], reply: "Chennai is the capital of Tamil Nadu." },
+  { keywords: ["capital of telangana"], reply: "Hyderabad is the capital of Telangana." },
+  { keywords: ["capital of tripura"], reply: "Agartala is the capital of Tripura." },
+  { keywords: ["capital of uttar pradesh"], reply: "Lucknow is the capital of Uttar Pradesh." },
+  { keywords: ["capital of uttarakhand"], reply: "Dehradun is the capital of Uttarakhand." },
+  { keywords: ["capital of west bengal"], reply: "Kolkata is the capital of West Bengal." },
+
+  // ---- Even more world capitals ----
+  { keywords: ["capital of finland"], reply: "Helsinki is the capital of Finland." },
+  { keywords: ["capital of estonia"], reply: "Tallinn is the capital of Estonia." },
+  { keywords: ["capital of latvia"], reply: "Riga is the capital of Latvia." },
+  { keywords: ["capital of lithuania"], reply: "Vilnius is the capital of Lithuania." },
+  { keywords: ["capital of slovakia"], reply: "Bratislava is the capital of Slovakia." },
+  { keywords: ["capital of slovenia"], reply: "Ljubljana is the capital of Slovenia." },
+  { keywords: ["capital of croatia"], reply: "Zagreb is the capital of Croatia." },
+  { keywords: ["capital of serbia"], reply: "Belgrade is the capital of Serbia." },
+  { keywords: ["capital of bulgaria"], reply: "Sofia is the capital of Bulgaria." },
+  { keywords: ["capital of bosnia"], reply: "Sarajevo is the capital of Bosnia." },
+  { keywords: ["capital of albania"], reply: "Tirana is the capital of Albania." },
+  { keywords: ["capital of moldova"], reply: "Chisinau is the capital of Moldova." },
+  { keywords: ["capital of belarus"], reply: "Minsk is the capital of Belarus." },
+  { keywords: ["capital of georgia"], reply: "Tbilisi is the capital of Georgia." },
+  { keywords: ["capital of armenia"], reply: "Yerevan is the capital of Armenia." },
+  { keywords: ["capital of azerbaijan"], reply: "Baku is the capital of Azerbaijan." },
+  { keywords: ["capital of kyrgyzstan"], reply: "Bishkek is the capital of Kyrgyzstan." },
+  { keywords: ["capital of tajikistan"], reply: "Dushanbe is the capital of Tajikistan." },
+  { keywords: ["capital of turkmenistan"], reply: "Ashgabat is the capital of Turkmenistan." },
+  { keywords: ["capital of bhutan"], reply: "Thimphu is the capital of Bhutan." },
+  { keywords: ["capital of maldives"], reply: "Male is the capital of Maldives." },
+  { keywords: ["capital of brunei"], reply: "Bandar Seri Begawan is the capital of Brunei." },
+  { keywords: ["capital of fiji"], reply: "Suva is the capital of Fiji." },
+  { keywords: ["capital of papua new guinea"], reply: "Port Moresby is the capital of Papua New Guinea." },
+  { keywords: ["capital of haiti"], reply: "Port-au-Prince is the capital of Haiti." },
+  { keywords: ["capital of dominican republic"], reply: "Santo Domingo is the capital of Dominican Republic." },
+  { keywords: ["capital of honduras"], reply: "Tegucigalpa is the capital of Honduras." },
+  { keywords: ["capital of nicaragua"], reply: "Managua is the capital of Nicaragua." },
+  { keywords: ["capital of el salvador"], reply: "San Salvador is the capital of El Salvador." },
+  { keywords: ["capital of belize"], reply: "Belmopan is the capital of Belize." },
+  { keywords: ["capital of guyana"], reply: "Georgetown is the capital of Guyana." },
+  { keywords: ["capital of suriname"], reply: "Paramaribo is the capital of Suriname." },
+  { keywords: ["capital of angola"], reply: "Luanda is the capital of Angola." },
+  { keywords: ["capital of mozambique"], reply: "Maputo is the capital of Mozambique." },
+  { keywords: ["capital of madagascar"], reply: "Antananarivo is the capital of Madagascar." },
+  { keywords: ["capital of cameroon"], reply: "Yaounde is the capital of Cameroon." },
+  { keywords: ["capital of ivory coast"], reply: "Yamoussoukro is the capital of Ivory Coast." },
+  { keywords: ["capital of mali"], reply: "Bamako is the capital of Mali." },
+  { keywords: ["capital of niger"], reply: "Niamey is the capital of Niger." },
+  { keywords: ["capital of chad"], reply: "N'Djamena is the capital of Chad." },
+  { keywords: ["capital of somalia"], reply: "Mogadishu is the capital of Somalia." },
+  { keywords: ["capital of rwanda"], reply: "Kigali is the capital of Rwanda." },
+  { keywords: ["capital of burundi"], reply: "Gitega is the capital of Burundi." },
+  { keywords: ["capital of malawi"], reply: "Lilongwe is the capital of Malawi." },
+  { keywords: ["capital of botswana"], reply: "Gaborone is the capital of Botswana." },
+  { keywords: ["capital of namibia"], reply: "Windhoek is the capital of Namibia." },
+  { keywords: ["capital of lesotho"], reply: "Maseru is the capital of Lesotho." },
+  { keywords: ["capital of eswatini"], reply: "Mbabane is the capital of Eswatini." },
+
+  // ---- More chemical elements ----
+  { keywords: ["element lithium", "what is lithium"], reply: "Lithium (symbol Li) is the lightest metal, used in rechargeable batteries." },
+  { keywords: ["element magnesium", "what is magnesium"], reply: "Magnesium (symbol Mg) is important for muscle and nerve function, burns with a bright white flame." },
+  { keywords: ["element potassium", "what is potassium"], reply: "Potassium (symbol K) is essential for nerve function, reacts vigorously with water." },
+  { keywords: ["element chlorine", "what is chlorine"], reply: "Chlorine (symbol Cl) is used to disinfect water, part of table salt." },
+  { keywords: ["element sulfur", "what is sulfur"], reply: "Sulfur (symbol S) is known for its yellow color and rotten-egg smell in compounds." },
+  { keywords: ["element phosphorus", "what is phosphorus"], reply: "Phosphorus (symbol P) is essential for DNA and energy transfer in cells." },
+  { keywords: ["element titanium", "what is titanium"], reply: "Titanium (symbol Ti) is strong, lightweight metal used in aerospace and medical implants." },
+  { keywords: ["element nickel", "what is nickel"], reply: "Nickel (symbol Ni) is used in stainless steel and rechargeable batteries." },
+  { keywords: ["element platinum", "what is platinum"], reply: "Platinum (symbol Pt) is a dense, precious metal used in jewelry and catalytic converters." },
+  { keywords: ["element mercury", "what is mercury"], reply: "Mercury (symbol Hg) is the only metal that is liquid at room temperature." },
+  { keywords: ["element lead", "what is lead"], reply: "Lead (symbol Pb) is a dense, soft metal historically used in pipes and paints." },
+  { keywords: ["element tin", "what is tin"], reply: "Tin (symbol Sn) is used to coat other metals to prevent corrosion." },
+  { keywords: ["element iodine", "what is iodine"], reply: "Iodine (symbol I) is essential for thyroid function, used as an antiseptic." },
+  { keywords: ["element argon", "what is argon"], reply: "Argon (symbol Ar) is an inert gas used in light bulbs to prevent filament oxidation." },
+  { keywords: ["element krypton", "what is krypton"], reply: "Krypton (symbol Kr) is a noble gas used in some types of photographic flashes." },
+  { keywords: ["element xenon", "what is xenon"], reply: "Xenon (symbol Xe) is a noble gas used in high-intensity lamps and ion propulsion." },
+  { keywords: ["element boron", "what is boron"], reply: "Boron (symbol B) is used in glass, ceramics, and detergents." },
+  { keywords: ["element silicon", "what is silicon"], reply: "Silicon (symbol Si) is the basis of most computer chips and semiconductors." },
+  { keywords: ["element radon", "what is radon"], reply: "Radon (symbol Rn) is a radioactive noble gas that can accumulate in basements." },
+  { keywords: ["element cobalt", "what is cobalt"], reply: "Cobalt (symbol Co) is used in rechargeable batteries and blue pigments." },
+
+  // ---- Data structures & algorithms ----
+  { keywords: ["what is an array data structure"], reply: "An array stores elements in contiguous memory, accessed by index in constant time." },
+  { keywords: ["what is a linked list"], reply: "A linked list stores elements as nodes, each pointing to the next, allowing efficient insertion and deletion." },
+  { keywords: ["what is a stack"], reply: "A stack follows Last-In-First-Out (LIFO) order, like a stack of plates." },
+  { keywords: ["what is a queue"], reply: "A queue follows First-In-First-Out (FIFO) order, like people waiting in line." },
+  { keywords: ["what is a tree data structure"], reply: "A tree is a hierarchical structure with a root node and child nodes, like a family tree." },
+  { keywords: ["what is a binary tree"], reply: "A binary tree is a tree where each node has at most two children." },
+  { keywords: ["what is a graph data structure"], reply: "A graph consists of nodes (vertices) connected by edges, used to model networks." },
+  { keywords: ["what is a hash table"], reply: "A hash table stores key-value pairs and allows fast lookups using a hash function." },
+  { keywords: ["what is bubble sort"], reply: "Bubble sort repeatedly swaps adjacent elements if they're in the wrong order, until sorted." },
+  { keywords: ["what is quick sort"], reply: "Quick sort picks a pivot and partitions the array around it, recursively sorting each part." },
+  { keywords: ["what is merge sort"], reply: "Merge sort divides the array in half, sorts each half, then merges them back together." },
+  { keywords: ["what is binary search"], reply: "Binary search finds an item in a sorted array by repeatedly halving the search range." },
+  { keywords: ["what is big o notation"], reply: "Big O notation describes how an algorithm's runtime or memory grows as input size increases." },
+  { keywords: ["what is dynamic programming"], reply: "Dynamic programming solves problems by breaking them into overlapping subproblems and storing results." },
+  { keywords: ["what is recursion in programming"], reply: "Recursion is a technique where a function calls itself to solve smaller instances of a problem." },
+
+  // ---- HTML & CSS explained ----
+  { keywords: ["what is a div tag"], reply: "The <div> tag is a generic container used to group and style content in HTML." },
+  { keywords: ["what is a span tag"], reply: "The <span> tag is an inline container used to style a small part of text." },
+  { keywords: ["what is flexbox"], reply: "Flexbox is a CSS layout model for arranging items in a row or column with flexible sizing." },
+  { keywords: ["what is css grid"], reply: "CSS Grid is a layout system for arranging content in rows and columns simultaneously." },
+  { keywords: ["what is a class selector css"], reply: "A class selector in CSS targets elements with a specific class, written as .classname." },
+  { keywords: ["what is an id selector css"], reply: "An ID selector in CSS targets a single unique element, written as #idname." },
+  { keywords: ["what is media query css"], reply: "A media query applies CSS rules conditionally based on screen size or device type." },
+  { keywords: ["what is box model css"], reply: "The CSS box model describes content, padding, border, and margin around an element." },
+  { keywords: ["what is z index css"], reply: "z-index controls the stacking order of overlapping elements in CSS." },
+  { keywords: ["what is position absolute css"], reply: "position: absolute positions an element relative to its nearest positioned ancestor." },
+
+  // ---- Common idioms ----
+  { keywords: ["what does break the ice mean", "break the ice"], reply: "'Break the ice' means to initiate conversation in a social setting to ease tension." },
+  { keywords: ["what does piece of cake mean", "piece of cake"], reply: "'Piece of cake' means something is very easy to do." },
+  { keywords: ["what does hit the sack mean", "hit the sack"], reply: "'Hit the sack' means to go to bed or go to sleep." },
+  { keywords: ["what does under the weather mean", "under the weather"], reply: "'Under the weather' means feeling slightly ill." },
+  { keywords: ["what does spill the beans mean", "spill the beans"], reply: "'Spill the beans' means to reveal a secret." },
+  { keywords: ["what does once in a blue moon mean", "once in a blue moon"], reply: "'Once in a blue moon' means something that happens very rarely." },
+  { keywords: ["what does bite the bullet mean", "bite the bullet"], reply: "'Bite the bullet' means to face a difficult situation with courage." },
+  { keywords: ["what does costs an arm and a leg mean", "costs an arm and a leg"], reply: "'Costs an arm and a leg' means something is very expensive." },
+  { keywords: ["what does burning the midnight oil mean", "burning the midnight oil"], reply: "'Burning the midnight oil' means working late into the night." },
+  { keywords: ["what does the ball is in your court mean", "the ball is in your court"], reply: "'The ball is in your court' means it's your turn to make a decision or take action." },
+
+  // ---- Common abbreviations ----
+  { keywords: ["what does lol mean"], reply: "LOL stands for 'Laugh Out Loud'." },
+  { keywords: ["what does brb mean"], reply: "BRB stands for 'Be Right Back'." },
+  { keywords: ["what does afk mean"], reply: "AFK stands for 'Away From Keyboard'." },
+  { keywords: ["what does ceo mean"], reply: "CEO stands for 'Chief Executive Officer'." },
+  { keywords: ["what does cfo mean"], reply: "CFO stands for 'Chief Financial Officer'." },
+  { keywords: ["what does cto mean"], reply: "CTO stands for 'Chief Technology Officer'." },
+  { keywords: ["what does nasa stand for"], reply: "NASA stands for 'National Aeronautics and Space Administration'." },
+  { keywords: ["what does isro stand for"], reply: "ISRO stands for 'Indian Space Research Organisation'." },
+  { keywords: ["what does html stand for"], reply: "HTML stands for 'HyperText Markup Language'." },
+  { keywords: ["what does css stand for"], reply: "CSS stands for 'Cascading Style Sheets'." },
+  { keywords: ["what does cpu stand for"], reply: "CPU stands for 'Central Processing Unit'." },
+  { keywords: ["what does url stand for"], reply: "URL stands for 'Uniform Resource Locator'." },
+  { keywords: ["what does http stand for"], reply: "HTTP stands for 'HyperText Transfer Protocol'." },
+  { keywords: ["what does faq stand for"], reply: "FAQ stands for 'Frequently Asked Questions'." },
+  { keywords: ["what does diy stand for"], reply: "DIY stands for 'Do It Yourself'." },
+  { keywords: ["what does asap mean"], reply: "ASAP stands for 'As Soon As Possible'." },
+  { keywords: ["what does eta mean"], reply: "ETA stands for 'Estimated Time of Arrival'." },
+  { keywords: ["what does faq mean"], reply: "FAQ stands for 'Frequently Asked Questions'." },
+
+  // ---- Geometry calculators ----
+  {
+    keywords: ['area of a circle', 'area of circle'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a radius, like 'area of a circle with radius 5'.";
+      const r = parseFloat(nums[0]);
+      return `The area of a circle with radius ${r} is ${(Math.PI * r * r).toFixed(2)} square units.`;
+    }
+  },
+  {
+    keywords: ['area of a square', 'area of square'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a side length, like 'area of a square with side 4'.";
+      const s = parseFloat(nums[0]);
+      return `The area of a square with side ${s} is ${(s * s).toFixed(2)} square units.`;
+    }
+  },
+  {
+    keywords: ['area of a rectangle', 'area of rectangle'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/g);
+      if (!nums || nums.length < 2) return "Give me length and width, like 'area of a rectangle 4 and 5'.";
+      const [l, w] = nums.map(Number);
+      return `The area of a rectangle with length ${l} and width ${w} is ${(l * w).toFixed(2)} square units.`;
+    }
+  },
+  {
+    keywords: ['area of a triangle', 'area of triangle'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/g);
+      if (!nums || nums.length < 2) return "Give me base and height, like 'area of a triangle base 4 height 5'.";
+      const [b, h] = nums.map(Number);
+      return `The area of a triangle with base ${b} and height ${h} is ${(0.5 * b * h).toFixed(2)} square units.`;
+    }
+  },
+  {
+    keywords: ['perimeter of a square', 'perimeter of square'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a side length, like 'perimeter of a square with side 4'.";
+      const s = parseFloat(nums[0]);
+      return `The perimeter of a square with side ${s} is ${(s * 4).toFixed(2)} units.`;
+    }
+  },
+  {
+    keywords: ['circumference of a circle'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a radius, like 'circumference of a circle with radius 5'.";
+      const r = parseFloat(nums[0]);
+      return `The circumference of a circle with radius ${r} is ${(2 * Math.PI * r).toFixed(2)} units.`;
+    }
+  },
+
+  // ---- More unit conversions ----
+  {
+    keywords: ['inches to cm', 'convert inches to cm'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a number, like 'convert 10 inches to cm'.";
+      const inch = Number(nums[0]);
+      return `${inch} inches is ${(inch * 2.54).toFixed(2)} centimeters.`;
+    }
+  },
+  {
+    keywords: ['cm to inches', 'convert cm to inches'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a number, like 'convert 10 cm to inches'.";
+      const cm = Number(nums[0]);
+      return `${cm} centimeters is ${(cm / 2.54).toFixed(2)} inches.`;
+    }
+  },
+  {
+    keywords: ['liters to gallons', 'convert liters to gallons'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a number, like 'convert 10 liters to gallons'.";
+      const l = Number(nums[0]);
+      return `${l} liters is ${(l * 0.264172).toFixed(2)} gallons.`;
+    }
+  },
+  {
+    keywords: ['gallons to liters', 'convert gallons to liters'],
+    action: (msg) => {
+      const nums = msg.match(/[\d.]+/);
+      if (!nums) return "Give me a number, like 'convert 10 gallons to liters'.";
+      const g = Number(nums[0]);
+      return `${g} gallons is ${(g * 3.78541).toFixed(2)} liters.`;
+    }
+  },
+
+  // ---- More sports facts ----
+  { keywords: ["what is a hat trick"], reply: "A hat-trick is when a player scores three goals or takes three wickets in a single match or innings." },
+  { keywords: ["what is lbw in cricket"], reply: "LBW (Leg Before Wicket) is a way a batsman can be dismissed if the ball hits their leg in line with the stumps." },
+  { keywords: ["what is offside in football"], reply: "Offside occurs when an attacking player is nearer the goal line than the second-last defender when the ball is played to them." },
+  { keywords: ["how long is a marathon"], reply: "A marathon is 42.195 kilometers, or about 26.2 miles." },
+  { keywords: ["what is a grand slam in tennis"], reply: "A Grand Slam refers to winning all four major tennis tournaments: Australian Open, French Open, Wimbledon, and US Open." },
+  { keywords: ["how many rings in olympic logo"], reply: "The Olympic logo has five interlocking rings, representing the five inhabited continents." },
+  { keywords: ["what is a century in cricket"], reply: "A century in cricket means a batsman has scored 100 or more runs in a single innings." },
+  { keywords: ["what is par in golf"], reply: "Par is the predetermined number of strokes a skilled golfer should need to complete a hole." },
+  // ---- Country languages ----
+  { keywords: ["language of india", "what language do they speak in india"], reply: "The official language of India is Hindi and English are official languages, along with 20+ other recognized languages." },
+  { keywords: ["language of france", "what language do they speak in france"], reply: "The official language of France is French." },
+  { keywords: ["language of germany", "what language do they speak in germany"], reply: "The official language of Germany is German." },
+  { keywords: ["language of japan", "what language do they speak in japan"], reply: "The official language of Japan is Japanese." },
+  { keywords: ["language of china", "what language do they speak in china"], reply: "The official language of China is Mandarin Chinese." },
+  { keywords: ["language of brazil", "what language do they speak in brazil"], reply: "The official language of Brazil is Portuguese." },
+  { keywords: ["language of russia", "what language do they speak in russia"], reply: "The official language of Russia is Russian." },
+  { keywords: ["language of mexico", "what language do they speak in mexico"], reply: "The official language of Mexico is Spanish." },
+  { keywords: ["language of italy", "what language do they speak in italy"], reply: "The official language of Italy is Italian." },
+  { keywords: ["language of spain", "what language do they speak in spain"], reply: "The official language of Spain is Spanish." },
+  { keywords: ["language of south korea", "what language do they speak in south korea"], reply: "The official language of South Korea is Korean." },
+  { keywords: ["language of saudi arabia", "what language do they speak in saudi arabia"], reply: "The official language of Saudi Arabia is Arabic." },
+  { keywords: ["language of egypt", "what language do they speak in egypt"], reply: "The official language of Egypt is Arabic." },
+  { keywords: ["language of indonesia", "what language do they speak in indonesia"], reply: "The official language of Indonesia is Indonesian." },
+  { keywords: ["language of pakistan", "what language do they speak in pakistan"], reply: "The official language of Pakistan is Urdu." },
+  { keywords: ["language of bangladesh", "what language do they speak in bangladesh"], reply: "The official language of Bangladesh is Bengali." },
+  { keywords: ["language of vietnam", "what language do they speak in vietnam"], reply: "The official language of Vietnam is Vietnamese." },
+  { keywords: ["language of thailand", "what language do they speak in thailand"], reply: "The official language of Thailand is Thai." },
+  { keywords: ["language of turkey", "what language do they speak in turkey"], reply: "The official language of Turkey is Turkish." },
+  { keywords: ["language of netherlands", "what language do they speak in netherlands"], reply: "The official language of Netherlands is Dutch." },
+
+  // ---- Even more animal facts ----
+  { keywords: ["fact about lion", "tell me about lions"], reply: "Lions are known as the 'king of the jungle', though they actually live in grasslands and savannas." },
+  { keywords: ["fact about tiger", "tell me about tigers"], reply: "Tigers are the largest cat species and have unique stripe patterns like human fingerprints." },
+  { keywords: ["fact about panda", "tell me about pandas"], reply: "Giant pandas eat mostly bamboo, consuming up to 38 kg a day." },
+  { keywords: ["fact about koala", "tell me about koalas"], reply: "Koalas sleep up to 20 hours a day, mostly due to their low-energy eucalyptus diet." },
+  { keywords: ["fact about crocodile", "tell me about crocodiles"], reply: "Crocodiles have one of the strongest bite forces of any animal." },
+  { keywords: ["fact about eagle", "tell me about eagles"], reply: "Eagles have exceptional eyesight, able to spot prey from great distances." },
+  { keywords: ["fact about wolf", "tell me about wolfs"], reply: "Wolves are highly social animals that live and hunt in packs." },
+  { keywords: ["fact about fox", "tell me about foxs"], reply: "Foxes are known for their cleverness and adaptability to different habitats." },
+  { keywords: ["fact about camel", "tell me about camels"], reply: "Camels can go for long periods without water by storing fat in their humps." },
+  { keywords: ["fact about horse", "tell me about horses"], reply: "Horses can sleep both lying down and standing up." },
+  { keywords: ["fact about dog", "tell me about dogs"], reply: "Dogs have an extraordinary sense of smell, far superior to humans." },
+  { keywords: ["fact about cat", "tell me about cats"], reply: "Cats spend around 70% of their lives sleeping." },
+  { keywords: ["fact about frog", "tell me about frogs"], reply: "Frogs breathe partly through their skin, which must stay moist." },
+  { keywords: ["fact about snake", "tell me about snakes"], reply: "Snakes smell using their tongue, which picks up chemical particles in the air." },
+  { keywords: ["fact about jellyfish", "tell me about jellyfishs"], reply: "Some jellyfish have no brain, heart, or bones." },
+
+  // ---- More historical events ----
+  { keywords: ["when was the french revolution"], reply: "The French Revolution began in 1789." },
+  { keywords: ["when was the american revolution"], reply: "The American Revolution began in 1775." },
+  { keywords: ["when did the roman empire fall"], reply: "The Western Roman Empire fell in 476 AD." },
+  { keywords: ["when was the cold war"], reply: "The Cold War lasted roughly from 1947 to 1991." },
+  { keywords: ["when did the titanic sink"], reply: "The Titanic sank on 15 April 1912." },
+  { keywords: ["when was the industrial revolution"], reply: "The Industrial Revolution began in the late 18th century, around 1760." },
+  { keywords: ["when was the renaissance"], reply: "The Renaissance spanned roughly from the 14th to the 17th century." },
+  { keywords: ["when did the first world war end"], reply: "World War I ended in 1918." },
+  { keywords: ["when was the great depression"], reply: "The Great Depression began in 1929 following the stock market crash." },
+  { keywords: ["when was the partition of india"], reply: "India was partitioned in 1947, creating India and Pakistan." },
+
+  // ---- Wisdom & advice ----
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Small consistent steps beat big irregular efforts." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Progress, not perfection, is what matters most." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "A calm mind makes better decisions than a rushed one." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Every skill was once something you couldn't do." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Rest is part of the process, not a break from it." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Comparison steals joy \u2014 focus on your own pace." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Discipline is choosing what you want most over what you want now." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Mistakes are proof that you're trying." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Consistency compounds over time, even when progress feels slow." },
+  { keywords: ["give me advice", "any advice", "wise words"], reply: "Clarity comes from action, not just thinking." },
+
+  // ---- More Excel functions ----
+  { keywords: ["concatenate excel"], reply: "CONCATENATE (or the & operator) joins text from multiple cells, e.g. =A1&\" \"&B1." },
+  { keywords: ["trim excel"], reply: "TRIM removes extra spaces from text, e.g. =TRIM(A1)." },
+  { keywords: ["len excel"], reply: "LEN returns the number of characters in a text string, e.g. =LEN(A1)." },
+  { keywords: ["upper excel"], reply: "UPPER converts text to uppercase, e.g. =UPPER(A1)." },
+  { keywords: ["lower excel"], reply: "LOWER converts text to lowercase, e.g. =LOWER(A1)." },
+  { keywords: ["today function excel"], reply: "TODAY() returns the current date, updating automatically." },
+  { keywords: ["now function excel"], reply: "NOW() returns the current date and time." },
+  { keywords: ["round excel"], reply: "ROUND rounds a number to a specified number of digits, e.g. =ROUND(A1, 2)." },
+  { keywords: ["average excel"], reply: "AVERAGE calculates the mean of a range of numbers, e.g. =AVERAGE(A1:A10)." },
+  { keywords: ["max excel"], reply: "MAX returns the largest value in a range, e.g. =MAX(A1:A10)." },
+  { keywords: ["min excel"], reply: "MIN returns the smallest value in a range, e.g. =MIN(A1:A10)." },
+  { keywords: ["countA excel"], reply: "COUNTA counts non-empty cells in a range, e.g. =COUNTA(A1:A10)." },
+
+  // ---- More common questions ----
+  { keywords: ["what can you do"], reply: "I can open apps, answer general knowledge questions, do quick calculations, and chat with you \u2014 just say my name." },
+  { keywords: ["help"], reply: "Just say 'Lumo' anywhere in your sentence along with what you need, like 'Lumo, open YouTube'." },
+  { keywords: ["what commands do you know"], reply: "I know hundreds of commands \u2014 from opening apps to answering trivia, math, and more. Try asking me anything." },
+  { keywords: ["are you offline"], reply: "I run fully in your browser, so I work without needing a constant server connection for most commands." },
+  { keywords: ["can you remember things"], reply: "I save your recent questions in the sidebar history, so you can look back anytime." },
+  { keywords: ["how do i talk to you"], reply: "Just include the word 'Lumo' anywhere in what you say, and I'll respond." },
+  { keywords: ["restart"], reply: "I can't restart the page myself, but you can refresh the browser to reset me." },
+  { keywords: ["who am i talking to"], reply: "You're talking to LUMO, your personal voice assistant." },];
 
 // ================= MATCH ENGINE =================
 // Returns the reply text instead of speaking directly, so we can also log it to history.
@@ -1010,7 +1363,7 @@ recognition.lang = 'en-IN';
 
 // Matches "lumo" (and common mis-hearings) ANYWHERE in the sentence —
 // start, middle, or end. e.g. "what's the time lumo" still works.
-const WAKE_WORD = /\b(lumo|luno|you know|know|lu ?mo|l ?u ?m ?o)\b/i;
+const WAKE_WORD = /\b(lumo|luno|lu ?mo|l ?u ?m ?o)\b/i;
 
 let recognitionActive = false;
 
