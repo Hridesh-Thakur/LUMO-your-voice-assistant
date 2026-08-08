@@ -11,10 +11,10 @@ function speak(text) {
 
 function wishMe() {
   const hour = new Date().getHours();
-  if (hour < 12) speak("Good Morning Boss...");
-  else if (hour < 17) speak("Good Afternoon Master...");
-  else speak("Good Evening Sir...");
-  speak("How may I help you?");
+  if (hour < 12) speak("Good Morning Boss...How may I help you?");
+  else if (hour < 17) speak("Good Afternoon Master...How may I help you?");
+  else speak("Good Evening Sir...How may I help you?");
+  // speak("");
 }
  
 window.addEventListener('load', () => {
@@ -31,6 +31,9 @@ const commandDB = [
   { keywords: ['open instagram'], action: () => { window.open("https://www.instagram.com/", "_blank"); return "Opening Instagram..."; } },
   { keywords: ['open youtube'], action: () => { window.open("https://youtube.com", "_blank"); return "Opening Youtube..."; } },
   { keywords: ['open facebook'], action: () => { window.open("https://facebook.com", "_blank"); return "Opening Facebook..."; } },
+  { keywords: ['open chat gpt'], action: () => { window.open("https://chatgpt.com", "_blank"); return "Opening ChatGPT..."; } },
+  { keywords: ['open cloude'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
+  { keywords: ['open cloud'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
   { keywords: ['calculator'], action: () => { window.open('https://www.google.com/search?q=calculator', '_blank'); return "Opening Calculator"; } },
   {
     keywords: ['what', 'who', 'what are', 'who is', 'what is', 'search for', 'find information about'],
@@ -99,7 +102,7 @@ const commandDB = [
   { keywords: ['auto fill in excel', 'excel autofill'], reply: "Type a value, drag the fill handle at bottom-right corner." },
 
   // ---- PowerPoint ----
-  { keywords: ['how to use powerpoint', 'learn ppt', 'powerpoint basics'], reply: "PowerPoint lets you add slides, text/images, and transitions for presentations." },
+  { keywords: ['how to use powerpoint', 'learn ppt', 'powerpoint basics'], reply: "PowerPoint lets you add slides, text-images, and transitions for presentations." },
   { keywords: ['animation in ppt', 'powerpoint animation'], reply: "Select object → 'Animations' tab → choose effect like Fade or Fly In." },
   { keywords: ['add slide in ppt', 'insert slide powerpoint'], reply: "Press Ctrl+M or 'Home' → 'New Slide'." },
   { keywords: ['design powerpoint', 'ppt themes'], reply: "'Design' tab → templates, colors, fonts. Use 'Slide Master' for consistency." },
