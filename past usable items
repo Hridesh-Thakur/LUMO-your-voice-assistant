@@ -1,0 +1,5 @@
+    <!-- <script src="app_testing.js"></script> -->
+    <!-- <script src="lumo_wakeword.js"></script> -->
+    <!-- <script src="another_testing.js"></script> -->
+    <!-- <script src="db_testing.js"></script> -->
+    const WAKE_WORD = /\b(lumo|luno|you know|bhai|bro|lu ?mo|l ?u ?m ?o)\b/i;

@@ -1,6 +1,69 @@
 const btn = document.querySelector('.talk');
 const content = document.querySelector('.content');
+
+// Get a free key from https://console.cloud.google.com — enable "YouTube Data API v3",
+// then create an API key (restrict it to your domain for safety). Paste it below.
+// Without a key, "play <song>" will still work but opens YouTube search results
+// instead of playing the song directly.
 const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';
+
+// ================= EMBEDDED YOUTUBE PLAYER =================
+// Songs play INSIDE this page (same tab) using YouTube's official IFrame
+// Player API. This is what makes "next song" reuse the same player instead
+// of opening a new tab, and it's the only way volume commands can actually
+// work — a separately opened tab is a different origin and can't be
+// controlled from here at all.
+let ytPlayer = null;
+let ytApiReady = false;
+let pendingVideoId = null;
+let lastAttemptedVideoId = null;
+
+window.onYouTubeIframeAPIReady = function () {
+  ytApiReady = true;
+  ytPlayer = new YT.Player('yt-player', {
+    height: '200',
+    width: '340',
+    videoId: '',
+    playerVars: { autoplay: 1, origin: window.location.origin },
+    events: {
+      onReady: () => {
+        if (pendingVideoId) {
+          playYouTubeVideo(pendingVideoId);
+          pendingVideoId = null;
+        }
+      },
+      onError: (event) => {
+        // 2 = invalid ID, 5 = HTML5 error, 100 = removed/private,
+        // 101 & 150 = embedding blocked by the video owner.
+        console.warn('LUMO: YouTube player error code', event.data);
+        if (lastAttemptedVideoId) {
+          speak("That video can't be played here, opening it on YouTube instead.");
+          window.open(`https://www.youtube.com/watch?v=${lastAttemptedVideoId}`, '_blank');
+          lastAttemptedVideoId = null;
+        }
+      }
+    }
+  });
+};
+
+function playYouTubeVideo(videoId) {
+  lastAttemptedVideoId = videoId;
+  if (ytApiReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+    ytPlayer.loadVideoById(videoId);
+    ytPlayer.playVideo();
+  } else {
+    // API script hasn't finished loading yet — remember it and play once ready.
+    pendingVideoId = videoId;
+  }
+}
+
+// Used to disable the wake-word-free "open"/"play" shortcuts while music is
+// playing — otherwise the mic can pick up the song's own audio bleeding
+// through the speakers, occasionally mishear a word like "play" in it, and
+// re-trigger playback in a loop, drowning out real commands.
+function isSongPlaying() {
+  return !!(ytPlayer && typeof ytPlayer.getPlayerState === 'function' && ytPlayer.getPlayerState() === 1);
+}
 
 function speak(text) {
   const text_speak = new SpeechSynthesisUtterance(text);
@@ -27,7 +90,6 @@ const commandDB = [
   { keywords: ['open chat gpt'], action: () => { window.open("https://chatgpt.com", "_blank"); return "Opening ChatGPT..."; } },
   { keywords: ['open cloude'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
   { keywords: ['open cloud'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
-  { keywords: ['open new page', 'open new', 'new page'], action: () => { window.open("https://", "_blank"); return "Opening New Page..."; } },
   { keywords: ['calculator'], action: () => { window.open('https://www.google.com/search?q=calculator', '_blank'); return "Opening Calculator"; } },
   {
     keywords: ['what', 'who', 'what are', 'who is', 'what is', 'search for', 'find information about'],
@@ -36,7 +98,6 @@ const commandDB = [
       return "This is what I found on the internet regarding " + msg;
     }
   },
-  // search <msg> on wikipedia will add soon
   {
     keywords: ['wikipedia'],
     action: (msg) => {
@@ -44,12 +105,10 @@ const commandDB = [
       return "This is what I found on Wikipedia regarding " + msg;
     }
   },
-  // time of any country or city will add soon
   {
     keywords: ['time'],
     action: () => "The current time is " + new Date().toLocaleString(undefined, { hour: "numeric", minute: "numeric" })
   },
-
   {
     keywords: ['date'],
     action: () => "Today's date is " + new Date().toLocaleString(undefined, { month: "short", day: "numeric" })
@@ -572,7 +631,7 @@ const commandDB = [
   { keywords: ["open udemy"], action: () => { window.open("https://udemy.com", "_blank"); return "Opening Udemy..."; } },
   { keywords: ["open khan academy"], action: () => { window.open("https://khanacademy.org", "_blank"); return "Opening Khan Academy..."; } },
   { keywords: ["open duolingo"], action: () => { window.open("https://duolingo.com", "_blank"); return "Opening Duolingo..."; } },
-  { keywords: ["open spotify web", "open spotify", "open sportify"], action: () => { window.open("https://open.spotify.com", "_blank"); return "Opening Spotify Web..."; } },
+  { keywords: ["open spotify web"], action: () => { window.open("https://open.spotify.com", "_blank"); return "Opening Spotify Web..."; } },
   { keywords: ["open soundcloud"], action: () => { window.open("https://soundcloud.com", "_blank"); return "Opening Soundcloud..."; } },
   { keywords: ["open dropbox"], action: () => { window.open("https://dropbox.com", "_blank"); return "Opening Dropbox..."; } },
   { keywords: ["open onedrive"], action: () => { window.open("https://onedrive.live.com", "_blank"); return "Opening Onedrive..."; } },
@@ -596,7 +655,7 @@ const commandDB = [
   { keywords: ["open swiggy"], action: () => { window.open("https://swiggy.com", "_blank"); return "Opening Swiggy..."; } },
   { keywords: ["open uber"], action: () => { window.open("https://uber.com", "_blank"); return "Opening Uber..."; } },
   { keywords: ["open ola"], action: () => { window.open("https://olacabs.com", "_blank"); return "Opening Ola..."; } },
-  { keywords: ["open linkedin learning", "open linkedin"], action: () => { window.open("https://linkedin.com/learning", "_blank"); return "Opening Linkedin Learning..."; } },
+  { keywords: ["open linkedin learning"], action: () => { window.open("https://linkedin.com/learning", "_blank"); return "Opening Linkedin Learning..."; } },
   { keywords: ["open canva design"], action: () => { window.open("https://canva.com", "_blank"); return "Opening Canva Design..."; } },
   { keywords: ["open adobe"], action: () => { window.open("https://adobe.com", "_blank"); return "Opening Adobe..."; } },
 
@@ -889,8 +948,8 @@ const commandDB = [
   { keywords: ["hello lumo"], reply: "Hello! How can I help today?" },
   { keywords: ["hey there"], reply: "Hey! I'm listening." },
   { keywords: ["yo lumo"], reply: "Yo! What's the mission today?" },
-  { keywords: ["morning", "good morning"], reply: "Good morning! Ready when you are." },
-  { keywords: ["evening", "good evening"], reply: "Good evening! What do you need?" },
+  { keywords: ["morning"], reply: "Good morning! Ready when you are." },
+  { keywords: ["evening"], reply: "Good evening! What do you need?" },
   { keywords: ["whats your favorite number"], reply: "I'll go with 42 \u2014 feels like the answer to everything." },
   { keywords: ["whats your favorite animal"], reply: "I'd say owls \u2014 wise and always watching, like a good assistant." },
   { keywords: ["do you like music"], reply: "I don't listen, but I can open Spotify for you anytime." },
@@ -908,20 +967,20 @@ const commandDB = [
   { keywords: ["how to stay warm in winter"], reply: "Layer clothing, keep extremities covered, and stay active to generate body heat." },
   { keywords: ["how to stay cool in summer"], reply: "Stay hydrated, wear light clothes, and avoid direct sun during peak afternoon hours." },
   // ---- Common phrases in other languages ----
-  { keywords: ["hello in spanish", "say hello in spanish"], reply: "Hello in Spanish is 'Hola'." },
-  { keywords: ["hello in french", "say hello in french"], reply: "Hello in French is 'Bonjour'." },
-  { keywords: ["hello in german", "say hello in german"], reply: "Hello in German is 'Hallo'." },
-  { keywords: ["hello in japanese", "say hello in japanese"], reply: "Hello in Japanese is 'Konnichiwa'." },
-  { keywords: ["hello in hindi", "say hello in hindi"], reply: "Hello in Hindi is 'Namaste'." },
-  { keywords: ["thank you in spanish", "say thank you in spanish"], reply: "Thank you in Spanish is 'Gracias'." },
-  { keywords: ["thank you in french", "say thank you in french"], reply: "Thank you in French is 'Merci'." },
-  { keywords: ["thank you in japanese", "say thank you in japanese"], reply: "Thank you in Japanese is 'Arigato'." },
-  { keywords: ["thank you in hindi", "say thank you in hindi"], reply: "Thank you in Hindi is 'Dhanyavaad'." },
-  { keywords: ["how are you in spanish", "ask how you are in spanish"], reply: "How are you in Spanish is '\u00bfC\u00f3mo est\u00e1s?'." },
-  { keywords: ["goodbye in spanish", "say goodbye in spanish"], reply: "Goodbye in Spanish is 'Adi\u00f3s'." },
-  { keywords: ["goodbye in french", "say goodbye in french"], reply: "Goodbye in French is 'Au revoir'." },
-  { keywords: ["i love you in spanish", "say i love you in spanish"], reply: "I love you in Spanish is 'Te amo'." },
-  { keywords: ["i love you in french", "say i love you in french"], reply: "I love you in French is 'Je t'aime'." },
+  { keywords: ["hello in spanish"], reply: "Hello in Spanish is 'Hola'." },
+  { keywords: ["hello in french"], reply: "Hello in French is 'Bonjour'." },
+  { keywords: ["hello in german"], reply: "Hello in German is 'Hallo'." },
+  { keywords: ["hello in japanese"], reply: "Hello in Japanese is 'Konnichiwa'." },
+  { keywords: ["hello in hindi"], reply: "Hello in Hindi is 'Namaste'." },
+  { keywords: ["thank you in spanish"], reply: "Thank you in Spanish is 'Gracias'." },
+  { keywords: ["thank you in french"], reply: "Thank you in French is 'Merci'." },
+  { keywords: ["thank you in japanese"], reply: "Thank you in Japanese is 'Arigato'." },
+  { keywords: ["thank you in hindi"], reply: "Thank you in Hindi is 'Dhanyavaad'." },
+  { keywords: ["how are you in spanish"], reply: "How are you in Spanish is '\u00bfC\u00f3mo est\u00e1s?'." },
+  { keywords: ["goodbye in spanish"], reply: "Goodbye in Spanish is 'Adi\u00f3s'." },
+  { keywords: ["goodbye in french"], reply: "Goodbye in French is 'Au revoir'." },
+  { keywords: ["i love you in spanish"], reply: "I love you in Spanish is 'Te amo'." },
+  { keywords: ["i love you in french"], reply: "I love you in French is 'Je t'aime'." },
 
   // ---- Everyday productivity ----
   { keywords: ["how to be more productive"], reply: "Prioritize your top 3 tasks each day, remove distractions, and take regular breaks." },
@@ -963,34 +1022,34 @@ const commandDB = [
   { keywords: ["what is the driest place on earth"], reply: "The Atacama Desert in Chile is considered the driest place on Earth." },
 
   // ---- Indian states and capitals ----
-  { keywords: ["capital of andhra pradesh", "capital of ap"], reply: "Amaravati is the capital of Andhra Pradesh." },
+  { keywords: ["capital of andhra pradesh"], reply: "Amaravati is the capital of Andhra Pradesh." },
   { keywords: ["capital of arunachal pradesh"], reply: "Itanagar is the capital of Arunachal Pradesh." },
-  { keywords: ["capital of assam", "capital of as"], reply: "Dispur is the capital of Assam." },
-  { keywords: ["capital of bihar", "capital of br"], reply: "Patna is the capital of Bihar." },
-  { keywords: ["capital of chhattisgarh", "capital of cg"], reply: "Raipur is the capital of Chhattisgarh." },
-  { keywords: ["capital of goa", "capital of ga"], reply: "Panaji is the capital of Goa." },
-  { keywords: ["capital of gujarat", "capital of gj"], reply: "Gandhinagar is the capital of Gujarat." },
-  { keywords: ["capital of haryana", "capital of hr"], reply: "Chandigarh is the capital of Haryana." },
-  { keywords: ["capital of himachal pradesh", "capital of hp"], reply: "Shimla is the capital of Himachal Pradesh." },
-  { keywords: ["capital of jharkhand", "capital of jh"], reply: "Ranchi is the capital of Jharkhand." },
-  { keywords: ["capital of karnataka", "capital of ka"], reply: "Bengaluru is the capital of Karnataka." },
-  { keywords: ["capital of kerala", "capital of kl"], reply: "Thiruvananthapuram is the capital of Kerala." },
-  { keywords: ["capital of madhya pradesh", "capital of mp"], reply: "Bhopal is the capital of Madhya Pradesh." },
-  { keywords: ["capital of maharashtra", "capital of mh"], reply: "Mumbai is the capital of Maharashtra." },
-  { keywords: ["capital of manipur", "capital of mn"], reply: "Imphal is the capital of Manipur." },
-  { keywords: ["capital of meghalaya", "capital of ml"], reply: "Shillong is the capital of Meghalaya." },
-  { keywords: ["capital of mizoram", "capital of mz"], reply: "Aizawl is the capital of Mizoram." },
-  { keywords: ["capital of nagaland", "capital of nl"], reply: "Kohima is the capital of Nagaland." },
-  { keywords: ["capital of odisha", "capital of or"], reply: "Bhubaneswar is the capital of Odisha." },
-  { keywords: ["capital of punjab", "capital of pbs"], reply: "Chandigarh is the capital of Punjab." },
-  { keywords: ["capital of rajasthan", "capital of rj"], reply: "Jaipur is the capital of Rajasthan." },
-  { keywords: ["capital of sikkim", "capital of sk"], reply: "Gangtok is the capital of Sikkim." },
-  { keywords: ["capital of tamil nadu", "capital of tn"], reply: "Chennai is the capital of Tamil Nadu." },
-  { keywords: ["capital of telangana", "capital of tg"], reply: "Hyderabad is the capital of Telangana." },
-  { keywords: ["capital of tripura", "capital of tp"], reply: "Agartala is the capital of Tripura." },
-  { keywords: ["capital of uttar pradesh", "capital of up"], reply: "Lucknow is the capital of Uttar Pradesh." },
-  { keywords: ["capital of uttarakhand", "capital of uh"], reply: "Dehradun is the capital of Uttarakhand." },
-  { keywords: ["capital of west bengal", "capital of wb"], reply: "Kolkata is the capital of West Bengal." },
+  { keywords: ["capital of assam"], reply: "Dispur is the capital of Assam." },
+  { keywords: ["capital of bihar"], reply: "Patna is the capital of Bihar." },
+  { keywords: ["capital of chhattisgarh"], reply: "Raipur is the capital of Chhattisgarh." },
+  { keywords: ["capital of goa"], reply: "Panaji is the capital of Goa." },
+  { keywords: ["capital of gujarat"], reply: "Gandhinagar is the capital of Gujarat." },
+  { keywords: ["capital of haryana"], reply: "Chandigarh is the capital of Haryana." },
+  { keywords: ["capital of himachal pradesh"], reply: "Shimla is the capital of Himachal Pradesh." },
+  { keywords: ["capital of jharkhand"], reply: "Ranchi is the capital of Jharkhand." },
+  { keywords: ["capital of karnataka"], reply: "Bengaluru is the capital of Karnataka." },
+  { keywords: ["capital of kerala"], reply: "Thiruvananthapuram is the capital of Kerala." },
+  { keywords: ["capital of madhya pradesh"], reply: "Bhopal is the capital of Madhya Pradesh." },
+  { keywords: ["capital of maharashtra"], reply: "Mumbai is the capital of Maharashtra." },
+  { keywords: ["capital of manipur"], reply: "Imphal is the capital of Manipur." },
+  { keywords: ["capital of meghalaya"], reply: "Shillong is the capital of Meghalaya." },
+  { keywords: ["capital of mizoram"], reply: "Aizawl is the capital of Mizoram." },
+  { keywords: ["capital of nagaland"], reply: "Kohima is the capital of Nagaland." },
+  { keywords: ["capital of odisha"], reply: "Bhubaneswar is the capital of Odisha." },
+  { keywords: ["capital of punjab"], reply: "Chandigarh is the capital of Punjab." },
+  { keywords: ["capital of rajasthan"], reply: "Jaipur is the capital of Rajasthan." },
+  { keywords: ["capital of sikkim"], reply: "Gangtok is the capital of Sikkim." },
+  { keywords: ["capital of tamil nadu"], reply: "Chennai is the capital of Tamil Nadu." },
+  { keywords: ["capital of telangana"], reply: "Hyderabad is the capital of Telangana." },
+  { keywords: ["capital of tripura"], reply: "Agartala is the capital of Tripura." },
+  { keywords: ["capital of uttar pradesh"], reply: "Lucknow is the capital of Uttar Pradesh." },
+  { keywords: ["capital of uttarakhand"], reply: "Dehradun is the capital of Uttarakhand." },
+  { keywords: ["capital of west bengal"], reply: "Kolkata is the capital of West Bengal." },
 
   // ---- Even more world capitals ----
   { keywords: ["capital of finland"], reply: "Helsinki is the capital of Finland." },
@@ -1807,7 +1866,6 @@ const commandDB = [
   { keywords: ["open physics wallah"], action: () => { window.open("https://pw.live", "_blank"); return "Opening Physics Wallah..."; } },
   { keywords: ["open google scholar"], action: () => { window.open("https://scholar.google.com", "_blank"); return "Opening Google Scholar..."; } },
   { keywords: ["open researchgate"], action: () => { window.open("https://researchgate.net", "_blank"); return "Opening Researchgate..."; } },
-  { keywords: ["open hmis", "open h m i s"], action: () => { window.open("https://hmis.mohfw.gov.in/", "_blank"); return "Opening HMIS..."; } },
   // ---- Final batch: assorted trivia ----
   { keywords: ["what is the speed of sound"], reply: "The speed of sound is about 343 meters per second in air at room temperature." },
   { keywords: ["what is absolute zero"], reply: "Absolute zero is the lowest possible temperature, -273.15\u00b0C, where atomic motion stops." },
@@ -2031,7 +2089,7 @@ const commandDB = [
   { keywords: ["what is http 503", "http status 503", "error 503"], reply: "HTTP 503 means Service Unavailable \u2014 the server is temporarily overloaded or down." },
 
   // ---- Computer terms ----
-  { keywords: ["what is an operating system", "what is os"], reply: "An operating system manages hardware and software resources on a computer, like Windows, macOS, or Linux." },
+  { keywords: ["what is an operating system"], reply: "An operating system manages hardware and software resources on a computer, like Windows, macOS, or Linux." },
   { keywords: ["what is a kernel"], reply: "The kernel is the core part of an operating system, managing hardware and system resources." },
   { keywords: ["what is bios"], reply: "BIOS (Basic Input/Output System) initializes hardware during the boot process before the OS loads." },
   { keywords: ["what is a motherboard"], reply: "The motherboard is the main circuit board connecting all components of a computer." },
@@ -2186,15 +2244,15 @@ const commandDB = [
     action: () => `Today is ${new Date().toLocaleDateString(undefined, { weekday: 'long' })}.`
   },
   {
-    keywords: ['what month is it', 'which month is today'],
+    keywords: ['what month is it'],
     action: () => `It's ${new Date().toLocaleDateString(undefined, { month: 'long' })}.`
   },
   {
-    keywords: ['what year is it', 'which year is it'],
+    keywords: ['what year is it'],
     action: () => `It's ${new Date().getFullYear()}.`
   },
   {
-    keywords: ['is it weekend', 'is it a weekend'],
+    keywords: ['is it weekend'],
     action: () => {
       const day = new Date().getDay();
       return (day === 0 || day === 6) ? "Yes, it's the weekend!" : "No, it's a weekday.";
@@ -2348,12 +2406,13 @@ const commandDB = [
   { keywords: ["can you open multiple apps"], reply: "Right now I handle one command at a time, but you can ask me again for another app." },
   { keywords: ["do you support other browsers"], reply: "I work best in Chrome or Chromium-based browsers because of the Speech Recognition API." },
 
-  // ---- Play songs directly on YouTube ----
+  // ---- Play songs directly on YouTube (same-tab embedded player) ----
   {
-    keywords: ['play'],
+    keywords: ['play', 'next song', 'new song'],
     action: async (msg) => {
       const songName = msg
-        .replace(/^play\s+/i, '')
+        .replace(/^(bro|hey|please|can you|could you|would you|will you|just)\s+/i, '')
+        .replace(/^(play|next song|new song)\s*/i, '')
         .replace(/\bsong\b/gi, '')
         .replace(/\bon youtube\b/gi, '')
         .trim();
@@ -2374,8 +2433,8 @@ const commandDB = [
         const videoId = data.items && data.items[0] && data.items[0].id && data.items[0].id.videoId;
 
         if (videoId) {
-          window.open(`https://www.youtube.com/watch?v=${videoId}&autoplay=1`, '_blank');
-          return `Playing ${songName} on YouTube.`;
+          playYouTubeVideo(videoId);
+          return `Playing ${songName}.`;
         }
         window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(songName)}`, '_blank');
         return `Couldn't find an exact match for ${songName}, opened search results instead.`;
@@ -2384,6 +2443,94 @@ const commandDB = [
         window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(songName)}`, '_blank');
         return "Something went wrong reaching YouTube, opened search results instead.";
       }
+    }
+  },
+
+  // ---- Volume control (controls the embedded player above) ----
+
+  {
+    keywords: ['volume up to', 'volume down to', 'set volume to', 'set the volume to', 'volume to'],
+    action: (msg) => {
+      if (!ytPlayer || typeof ytPlayer.setVolume !== 'function') return "No song is playing right now.";
+      const nums = msg.match(/\d+/);
+      if (!nums) return "Tell me a percentage, like 'volume to 30 percent'.";
+      const target = Math.max(0, Math.min(100, parseInt(nums[0], 10)));
+      if (ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
+      ytPlayer.setVolume(target);
+      return `Volume set to ${target} percent.`;
+    }
+  },
+  {
+    keywords: ['low volume', 'volume down', 'decrease volume', 'lower volume'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.getVolume !== 'function') return "No song is playing right now.";
+      if (ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
+      const next = Math.max(0, ytPlayer.getVolume() - 10);
+      ytPlayer.setVolume(next);
+      return `Volume set to ${next} percent.`;
+    }
+  },
+  {
+    keywords: ['high volume', 'volume up', 'increase volume', 'raise volume'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.getVolume !== 'function') return "No song is playing right now.";
+      if (ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
+      const next = Math.min(100, ytPlayer.getVolume() + 10);
+      ytPlayer.setVolume(next);
+      return `Volume set to ${next} percent.`;
+    }
+  },
+  {
+    keywords: ['max volume', 'maximum volume', 'full volume'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.getVolume !== 'function') return "No song is playing right now.";
+      if (ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
+
+      const startVol = ytPlayer.getVolume();
+      const steps = 10;
+      const totalMs = 5000;
+      let step = 0;
+
+      const rampInterval = setInterval(() => {
+        step++;
+        const next = Math.round(startVol + ((100 - startVol) * (step / steps)));
+        ytPlayer.setVolume(Math.min(100, next));
+        if (step >= steps) clearInterval(rampInterval);
+      }, totalMs / steps);
+
+      return "Ramping up to full volume.";
+    }
+  },
+  {
+    keywords: ['mute volume', 'mute the music', 'mute the song', 'mute it'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.mute !== 'function') return "No song is playing right now.";
+      ytPlayer.mute();
+      return "Muted.";
+    }
+  },
+  {
+    keywords: ['unmute volume', 'unmute the music', 'unmute the song', 'unmute it'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.unMute !== 'function') return "No song is playing right now.";
+      ytPlayer.unMute();
+      return "Unmuted.";
+    }
+  },
+  {
+    keywords: ['pause song', 'pause the song', 'pause music', 'pause the music', 'pause it'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.pauseVideo !== 'function') return "No song is playing right now.";
+      ytPlayer.pauseVideo();
+      return "Paused.";
+    }
+  },
+  {
+    keywords: ['resume song', 'resume the song', 'resume music', 'resume the music', 'resume it', 'continue song', 'unpause'],
+    action: () => {
+      if (!ytPlayer || typeof ytPlayer.playVideo !== 'function') return "No song is playing right now.";
+      ytPlayer.playVideo();
+      return "Resumed.";
     }
   },
 
@@ -2444,6 +2591,7 @@ async function takeCommand(message) {
 }
 
 // ================= SIDEBAR HISTORY =================
+// Uses window.LUMO.addHistory() if your index.html already defines it (sidebar UI).
 function logToHistory(question, answer) {
   if (window.LUMO && typeof window.LUMO.addHistory === 'function') {
     window.LUMO.addHistory(question, answer);
@@ -2474,7 +2622,7 @@ recognition.lang = 'en-IN';
 
 // Matches "lumo" (and common mis-hearings) ANYWHERE in the sentence —
 // start, middle, or end. e.g. "what's the time lumo" still works.
-const WAKE_WORD = /\b(lumo|luno|lu|you know|logo|bro|bhai|mr ai ?mo|l ?u ?m ?o)\b/i;
+const WAKE_WORD = /\b(lumo|luno|you know|bhai|bro|lu ?mo|l ?u ?m ?o)\b/i;
 
 let recognitionActive = false;
 let lastHeard = '';
@@ -2487,7 +2635,6 @@ recognition.onresult = (event) => {
   console.log("Heard:", text);
 
   // ---- Debounce: ignore the exact same phrase if heard again within 3s ----
-  // Continuous recognition sometimes re-fires the same result twice in a row.
   const now = Date.now();
   if (text === lastHeard && (now - lastHeardAt) < 3000) {
     return;
@@ -2496,12 +2643,19 @@ recognition.onresult = (event) => {
   lastHeardAt = now;
 
   // ---- Shortcut: "open <app/website>" works WITHOUT the wake word ----
-  // Only matches keywords that actually start with "open", so it won't
-  // accidentally fire on unrelated sentences that happen to contain "open".
-  const openMatch = commandDB.find(cmd =>
+
+  const openMatch = !isSongPlaying() && commandDB.find(cmd =>
     cmd.keywords.some(k => k.startsWith('open') && text.includes(k))
   );
   if (openMatch) {
+    content.textContent = text;
+    takeCommand(text);
+    return;
+  }
+
+  // ---- Shortcut: "play/next song/new song <song name>" works WITHOUT the wake word ----
+
+  if (!isSongPlaying() && /\b(play|next song|new song)\b/i.test(text)) {
     content.textContent = text;
     takeCommand(text);
     return;

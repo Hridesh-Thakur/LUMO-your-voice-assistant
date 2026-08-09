@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUMO</title>
-    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%236ee7ff'/%3E%3C/svg%3E" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
@@ -17,6 +17,8 @@
             --orb-edge: #b083ff;
             --orb-idle-speed: 6s;
             --orb-listen-speed: 2.4s;
+            --orb-speak-core: #7dffcf;
+            --orb-speak-core2: #4fd3ff;
         }
 
         .orb-wrap {
@@ -57,6 +59,7 @@
                 0 0 80px rgba(124,123,255,0.35),
                 inset 0 0 26px rgba(255,255,255,0.25);
             animation: orb-breathe var(--orb-idle-speed) ease-in-out infinite;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
         }
 
         .orb-shimmer {
@@ -78,7 +81,7 @@
             50% { transform: scale(1.06); }
         }
 
-        /* Listening state — everything quickens + glows harder */
+        /* ===== Listening state — everything quickens + glows harder ===== */
         .orb-wrap.listening .orb-bloom,
         .orb-wrap.listening .orb-ring,
         .orb-wrap.listening .orb-core {
@@ -94,37 +97,376 @@
                 inset 0 0 26px rgba(255,255,255,0.3);
         }
 
+        /* ===== Speaking state — color shifts to signal LUMO is replying ===== */
+        .orb-wrap.speaking .orb-core {
+            background:
+                radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0) 40%),
+                radial-gradient(circle at 60% 70%, var(--orb-speak-core2), var(--orb-speak-core) 55%, #10352c 100%);
+            box-shadow:
+                0 0 45px rgba(125,255,207,0.6),
+                0 0 100px rgba(79,211,255,0.4),
+                inset 0 0 26px rgba(255,255,255,0.3);
+            animation-duration: 1.4s;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .orb-bloom, .orb-ring, .orb-core, .orb-shimmer { animation: none !important; }
+        }
+
+        /* ===== Transcript / live caption line ===== */
+        .transcript {
+            min-height: 22px;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .transcript.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Talk button states ===== */
+        .talk {
+            position: relative;
+            transition: box-shadow 0.3s ease, transform 0.15s ease;
+        }
+        .talk:hover { transform: translateY(-1px); }
+        .talk.listening {
+            box-shadow: 0 0 0 6px rgba(110,231,255,0.18), 0 0 24px rgba(110,231,255,0.5);
+            animation: talk-pulse 1.4s ease-in-out infinite;
+        }
+        @keyframes talk-pulse {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(110,231,255,0.18), 0 0 24px rgba(110,231,255,0.5); }
+            50% { box-shadow: 0 0 0 10px rgba(110,231,255,0.10), 0 0 34px rgba(110,231,255,0.7); }
+        }
+
+        /* Waveform bars shown on the button while listening (swap for the mic icon) */
+        .talk-bars {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 18px;
+        }
+        .talk.listening .talk-bars { display: flex; }
+        .talk.listening .fa-microphone-alt { display: none; }
+        .talk-bars span {
+            width: 3px;
+            border-radius: 2px;
+            background: var(--orb-core, #6ee7ff);
+            height: 4px;
+            animation: bar-bounce 0.9s ease-in-out infinite;
+        }
+        .talk-bars span:nth-child(2) { animation-delay: .15s; }
+        .talk-bars span:nth-child(3) { animation-delay: .3s; }
+        .talk-bars span:nth-child(4) { animation-delay: .45s; }
+        @keyframes bar-bounce {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+
+        /* ===== Sidebar — saved commands / chat history ===== */
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /* page itself never scrolls — inner panels do */
+        }
+
+        .app-layout {
+            display: flex;
+            height: 100vh; /* fixed, not min-height, so children can scroll internally */
+        }
+
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            height: 100vh;
+            background: #0b0e17;
+            border-right: 1px solid rgba(110,231,255,0.12);
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.25s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid rgba(110,231,255,0.12);
+        }
+
+        .sidebar-header h2 {
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: #cfe9ff;
+            margin: 0;
+        }
+
+        .sidebar-clear {
+            background: none;
+            border: none;
+            color: #7a8399;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+        .sidebar-clear:hover { color: #ff8a8a; }
+
+        .sidebar-list {
+            list-style: none;
+            margin: 0;
+            padding: 8px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .sidebar-empty {
+            color: #4a5162;
+            font-size: 13px;
+            padding: 16px 8px;
+            text-align: center;
+        }
+
+        .sidebar-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .sidebar-item:hover { background: rgba(110,231,255,0.08); }
+        .sidebar-item.active { background: rgba(110,231,255,0.15); }
+
+        .sidebar-item .cmd {
+            font-size: 13.5px;
+            color: #e6f2ff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-item .time {
+            font-size: 11px;
+            color: #5b6479;
+            margin-top: 2px;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 10;
+            background: #0b0e17;
+            border: 1px solid rgba(110,231,255,0.2);
+            color: #cfe9ff;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main { flex: 1; height: 100vh; overflow-y: auto; }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                position: fixed;
+                left: 0; top: 0; bottom: 0;
+                margin-left: -260px;
+                z-index: 9;
+            }
+            .sidebar.open { margin-left: 0; }
+            .sidebar-toggle { display: flex; }
         }
     </style>
 </head>
 
 <body>
-    <section class="main">
-        <div class="image-container">
-            <div class="orb-wrap" id="orb">
-                <div class="orb-bloom"></div>
-                <div class="orb-ring"></div>
-                <div class="orb-core"></div>
-                <div class="orb-shimmer"></div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle history">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="lumoSidebar">
+            <div class="sidebar-header">
+                <h2>HISTORY</h2>
+                <button class="sidebar-clear" id="sidebarClear">Clear</button>
             </div>
-            <h1>L U M O</h1>
-            <!-- <p>Welcome Hridesh Thakur</p> -->
-            <p>I'm a Voice Assistant, LUMO. How may I help you?</p>
-        </div>
-        <div class="input">
-            <button class="talk"><b class="fas fa-microphone-alt">
-                <!-- Click here to speak -->  
-            </b></button>
-            <h1 class="content"> Click here to speak</h1>
-            
-        </div>
-    </section>
+            <ul class="sidebar-list" id="sidebarList">
+                <li class="sidebar-empty">Nothing said yet — try "Lumo, what's the time?"</li>
+            </ul>
+        </aside>
+
+        <section class="main">
+            <div class="image-container">
+                <div class="orb-wrap" id="orb">
+                    <div class="orb-bloom"></div>
+                    <div class="orb-ring"></div>
+                    <div class="orb-core"></div>
+                    <div class="orb-shimmer"></div>
+                </div>
+                <h1>L U M O</h1>
+                <!-- <p>Welcome Hridesh Thakur</p> -->
+                <p id="lumo-status">I'm a Voice Assistant, LUMO. How may I help you?</p>
+                <p id="lumo-transcript" class="transcript"></p>
+            </div>
+            <div class="input">
+                <button class="talk" id="talkBtn">
+                    <b class="fas fa-microphone-alt"></b>
+                    <span class="talk-bars"><span></span><span></span><span></span><span></span></span>
+                </button>
+                <h1 class="content" id="talkLabel"> Click here to speak</h1>
+            </div>
+
+            <!-- Embedded YouTube player — songs load/switch here in the SAME tab,
+                 and this is what lets volume commands actually work (a separate
+                 opened tab is a different origin and can't be controlled). -->
+            <!-- Kept off-screen (not display:none) so the audio keeps playing
+                 uninterrupted — browsers can pause fully-hidden video. -->
+            <div id="yt-player-wrap" style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;">
+                <div id="yt-player"></div>
+            </div>
+        </section>
+    </div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        /*
+          LUMO orb controller — call these from app_testing.js at the right moments.
+          This file does NOT start speech recognition itself; it only drives the
+          visuals so your existing recognition/response logic can stay as-is.
+
+          Wire it in app_testing.js like this:
+            recognition.onstart = () => LUMO.setState('listening');
+            recognition.onresult = (e) => LUMO.setTranscript(e.results[0][0].transcript);
+            recognition.onend    = () => LUMO.setState('idle');
+            // when you start speaking the reply:
+            utterance.onstart = () => LUMO.setState('speaking');
+            utterance.onend   = () => LUMO.setState('idle');
+        */
+        window.LUMO = (function () {
+            const orb = document.getElementById('orb');
+            const talkBtn = document.getElementById('talkBtn');
+            const talkLabel = document.getElementById('talkLabel');
+            const status = document.getElementById('lumo-status');
+            const transcript = document.getElementById('lumo-transcript');
+
+            const labels = {
+                idle: 'Click here to speak',
+                listening: 'Listening…',
+                speaking: 'Speaking…'
+            };
+
+            function setState(state) {
+                orb.classList.remove('listening', 'speaking');
+                talkBtn.classList.remove('listening');
+                if (state === 'listening') {
+                    orb.classList.add('listening');
+                    talkBtn.classList.add('listening');
+                    transcript.classList.remove('show');
+                } else if (state === 'speaking') {
+                    orb.classList.add('speaking');
+                }
+                talkLabel.textContent = labels[state] || labels.idle;
+            }
+
+            function setTranscript(text) {
+                transcript.textContent = text;
+                transcript.classList.toggle('show', Boolean(text));
+            }
+
+            function setStatus(text) {
+                status.textContent = text;
+            }
+
+            // ---------- Sidebar history ----------
+            const HISTORY_KEY = 'lumo_history';
+            const sidebarList = document.getElementById('sidebarList');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarClear = document.getElementById('sidebarClear');
+            const sidebar = document.getElementById('lumoSidebar');
+
+            function loadHistory() {
+                try {
+                    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveHistory(list) {
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+            }
+
+            function renderHistory() {
+                const history = loadHistory();
+                sidebarList.innerHTML = '';
+
+                if (history.length === 0) {
+                    sidebarList.innerHTML = '<li class="sidebar-empty">Nothing said yet — try "Lumo, what\'s the time?"</li>';
+                    return;
+                }
+
+                // newest first
+                history.slice().reverse().forEach((item, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'sidebar-item';
+                    li.innerHTML = `<div class="cmd">${item.question}</div><div class="time">${item.time}</div>`;
+                    li.addEventListener('click', () => {
+                        document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+                        li.classList.add('active');
+                        setTranscript(item.question);
+                        setStatus(item.answer);
+                    });
+                    sidebarList.appendChild(li);
+                });
+            }
+
+            function addHistory(question, answer) {
+                if (!question) return;
+                const history = loadHistory();
+                history.push({
+                    question,
+                    answer: answer || '',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                // keep the last 50 only
+                while (history.length > 50) history.shift();
+                saveHistory(history);
+                renderHistory();
+            }
+
+            sidebarToggle?.addEventListener('click', () => sidebar.classList.toggle('open'));
+            sidebarClear?.addEventListener('click', () => {
+                localStorage.removeItem(HISTORY_KEY);
+                renderHistory();
+            });
+
+            renderHistory();
+
+            return { setState, setTranscript, setStatus, addHistory };
+        })();
+
+        /*
+          DEMO-ONLY fallback: if app_testing.js does not yet call LUMO.setState(),
+          this gives you a visual preview on click. Delete this block once your
+          real recognition logic is wired above — otherwise you may get two
+          click handlers on the same button.
+        */
+        (function demoFallback() {
+            let demoListening = false;
+            document.getElementById('talkBtn').addEventListener('click', () => {
+                if (window.LUMO_WIRED) return; // set window.LUMO_WIRED = true in app_testing.js once connected
+                demoListening = !demoListening;
+                LUMO.setState(demoListening ? 'listening' : 'idle');
+                if (!demoListening) LUMO.setTranscript('');
+            });
+        })();
+    </script>
     <script src="app_testing.js"></script>
-    <!-- <script src="lumo_wakeword.js"></script> -->
-    <!-- <script src="another_testing.js"></script> -->
-    <!-- <script src="db_testing.js"></script> -->
 </body>
 
 </html>
