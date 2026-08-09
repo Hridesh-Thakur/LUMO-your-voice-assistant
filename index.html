@@ -419,7 +419,14 @@
                         document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
                         li.classList.add('active');
                         setTranscript(item.question);
-                        setStatus(item.answer);
+                        // Re-run the command instead of just showing it —
+                        // takeCommand() lives in app_testing.js and is a
+                        // global function by the time this can be clicked.
+                        if (typeof window.takeCommand === 'function') {
+                            window.takeCommand(item.question);
+                        } else {
+                            setStatus(item.answer);
+                        }
                     });
                     sidebarList.appendChild(li);
                 });
