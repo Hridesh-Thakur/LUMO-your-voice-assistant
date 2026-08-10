@@ -2481,7 +2481,7 @@ recognition.onstart = () => {
   btn.classList.add("listening");
   content.textContent = "Say 'LUMO' anywhere in your sentence...";
 };
-
+     
 recognition.onend = () => {
   recognitionActive = false;
   btn.classList.remove('listening');
