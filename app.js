@@ -57,7 +57,7 @@ function takeCommand(message) {
     } else if (message.includes("open youtube")) {
         window.open("https://youtube.com", "_blank");
         speak("Opening Youtube...");
-        // for opening facebook  
+        // for opening facebook
     } else if (message.includes("open facebook")) {
         window.open("https://facebook.com", "_blank");
         speak("Opening Facebook...");
