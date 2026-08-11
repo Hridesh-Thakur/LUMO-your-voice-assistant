@@ -20,7 +20,7 @@ function wishMe() {
     } else {
         speak("Good Evening Sir...");
     }
-}
+}  
 
 window.addEventListener('load', () => {
     speak("Initializing JARVIS...");
