@@ -58,9 +58,7 @@ function playYouTubeVideo(videoId) {
 }
 
 // Used to disable the wake-word-free "open"/"play" shortcuts while music is
-// playing — otherwise the mic can pick up the song's own audio bleeding
-// through the speakers, occasionally mishear a word like "play" in it, and
-// re-trigger playback in a loop, drowning out real commands.
+
 function isSongPlaying() {
   return !!(ytPlayer && typeof ytPlayer.getPlayerState === 'function' && ytPlayer.getPlayerState() === 1);
 }
@@ -2128,7 +2126,7 @@ const commandDB = [
   { keywords: ["riddle me", "tell me a riddle", "give me a riddle"], reply: "What comes once in a minute, twice in a moment, and never in a thousand years? The letter M." },
   { keywords: ["riddle me", "tell me a riddle", "give me a riddle"], reply: "What can travel around the world while staying in a corner? A stamp." },
   { keywords: ["riddle me", "tell me a riddle", "give me a riddle"], reply: "What has one eye but can't see? A needle." },
-  // ---- Famous landmarks ----
+  // ---- Famous landmarks ---- 
   { keywords: ["tell me about eiffel tower", "what is eiffel tower"], reply: "The Eiffel Tower is an iron lattice tower in Paris, France, built in 1889." },
   { keywords: ["tell me about statue of liberty", "what is statue of liberty"], reply: "The Statue of Liberty is a copper statue in New York Harbor, gifted by France in 1886." },
   { keywords: ["tell me about great wall of china", "what is great wall of china"], reply: "The Great Wall of China stretches over 21,000 kilometers, built to protect against invasions." },
@@ -2567,6 +2565,72 @@ const commandDB = [
     action: () => { window.location.href = 'tg://'; return "Opening Telegram..."; } },
   { keywords: ['can you open pc apps', 'can you open desktop apps'],
     reply: "I can try — apps like VS Code, Excel, Word, PowerPoint, Zoom, and Spotify register special links I can trigger. Your browser may ask permission the first time." },
+
+  {
+    keywords: ['import contacts', 'load my contacts', 'fetch my contacts', 'sync contacts', 'add my contacts'],
+    action: async () => {
+      if (!('contacts' in navigator && 'ContactsManager' in window)) {
+        return "Ye feature sirf Chrome ya Edge on Android par kaam karta hai. Is browser mein manually 'add contact <name> number <phone>' bol kar add karo.";
+      }
+      const count = await importContactsFromDevice();
+      if (count === null) return "dose not suported in this browser.";
+      if (count === 0) return "non contact is selected from your device.";
+      return `${count} contact${count > 1 ? 's' : ''} import ho gaye. Ab unhe naam se message bhej sakte ho.`;
+    }
+  },
+  {
+    keywords: ['add contact', 'save contact', 'add a contact', 'new contact'],
+    action: (msg) => {
+      const numberMatch = msg.match(/\d{10,13}/);
+      if (!numberMatch) return "say number";
+      let number = numberMatch[0];
+      if (number.length === 10) number = '91' + number;
+      const nameMatch = msg.match(/contact\s+([a-z\s]+?)(?:\s+number|\s+\d)/i);
+      if (!nameMatch) return "Naam samajh nahi aaya, try again.";
+      const name = nameMatch[1].trim();
+      saveContact(name, number);
+      return `${name} saved in contacts.`;
+    }
+  },
+  {
+    keywords: ['send message', 'send whatsapp message', 'send whatsapp to', 'whatsapp message to'],
+    action: (msg) => {
+      let name = null;
+      let textToSend = '';
+      let m = msg.match(/to\s+([a-z]+)\s+saying\s+(.+)/i);
+      if (m) {
+        name = m[1];
+        textToSend = m[2].trim();
+      } else {
+        m = msg.match(/(?:send\s+(?:whatsapp\s+)?message)\s+(.+?)\s+to\s+([a-z]+)$/i);
+        if (m) {
+          textToSend = m[1].trim();
+          name = m[2].trim();
+        } else {
+          m = msg.match(/to\s+([a-z]+)$/i);
+          if (m) name = m[1].trim();
+        }
+      }
+      let number = name ? findContact(name) : null;
+      if (!number) {
+        const numberMatch = msg.match(/\d{10,13}/);
+        if (numberMatch) {
+          number = numberMatch[0];
+          if (number.length === 10) number = '91' + number;
+        }
+      }
+      if (!number) {
+        return name
+          ? `${name} mere paas contact mein saved nahi hai. Pehle bolo 'add contact ${name} number <phone>'.`
+          : "Kise message bhejna hai bata do, jaise 'send message hey to ashutosh'.";
+      }
+      const url = `https://wa.me/${number}${textToSend ? '?text=' + encodeURIComponent(textToSend) : ''}`;
+      window.open(url, '_blank');
+      return textToSend
+        ? `${name || number} ke liye WhatsApp khol diya, message ready hai bhejne ke liye.`
+        : `${name || number} ka WhatsApp chat khol diya.`;
+    }
+  },
 ];
 
 // ================= MATCH ENGINE =================
@@ -2609,6 +2673,56 @@ function logToHistory(question, answer) {
     localStorage.setItem(KEY, JSON.stringify(history));
   } catch (e) {
     console.warn('LUMO: could not save history', e);
+  }
+}
+
+// ================= CONTACTS (saved per-device in localStorage) =================
+
+function getContacts() {
+  try {
+    return JSON.parse(localStorage.getItem('lumo_contacts')) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveContact(name, number) {
+  const contacts = getContacts();
+  contacts[name.toLowerCase().trim()] = number;
+  localStorage.setItem('lumo_contacts', JSON.stringify(contacts));
+}
+
+function findContact(name) {
+  const contacts = getContacts();
+  const key = name.toLowerCase().trim();
+  if (contacts[key]) return contacts[key];
+  const match = Object.keys(contacts).find(c => c.includes(key) || key.includes(c));
+  return match ? contacts[match] : null;
+}
+
+async function importContactsFromDevice() {
+  if (!('contacts' in navigator && 'ContactsManager' in window)) {
+    return null;
+  }
+  try {
+    const props = ['name', 'tel'];
+    const opts = { multiple: true };
+    const picked = await navigator.contacts.select(props, opts);
+    let count = 0;
+    picked.forEach(c => {
+      const name = (c.name && c.name[0]) || '';
+      const tel = (c.tel && c.tel[0]) || '';
+      if (name && tel) {
+        let number = tel.replace(/\D/g, '');
+        if (number.length > 10) number = number.slice(-10);
+        saveContact(name, '91' + number);
+        count++;
+      }
+    });
+    return count;
+  } catch (e) {
+    console.warn('LUMO: contact picker cancelled/failed', e);
+    return 0;
   }
 }
 
@@ -2689,7 +2803,6 @@ recognition.onend = () => {
   recognitionActive = false;
   btn.classList.remove('listening');
   // Always-on mode: browsers stop recognition after a pause — restart it
-  // automatically so LUMO stays awake without needing another click.
   setTimeout(() => {
     if (!recognitionActive) {
       try { recognition.start(); } catch (e) {}
