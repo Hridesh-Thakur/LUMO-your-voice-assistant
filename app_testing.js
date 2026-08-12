@@ -2114,7 +2114,7 @@ const commandDB = [
   { keywords: ["ppt design ideas"], reply: "'Design' tab \u2192 'Design Ideas' suggests polished layouts automatically based on your content." },
   { keywords: ["excel power query"], reply: "'Data' tab \u2192 'Get Data' opens Power Query, used to import and transform data from various sources." },
   { keywords: ["word building blocks"], reply: "'Insert' tab \u2192 'Quick Parts' lets you save and reuse blocks of content, like a signature." },
-
+    
   // ---- Riddles ----
   { keywords: ["riddle me", "tell me a riddle", "give me a riddle"], reply: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I? An echo." },
   { keywords: ["riddle me", "tell me a riddle", "give me a riddle"], reply: "The more you take, the more you leave behind. What am I? Footsteps." },
