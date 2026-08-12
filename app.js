@@ -1,20 +1,14 @@
-
-
 const btn = document.querySelector('.talk');
 const content = document.querySelector('.content');
 
 function speak(text) { 
-  
     const text_speak = new SpeechSynthesisUtterance(text);
-
     text_speak.rate = 1;
     text_speak.volume = 1;
     text_speak.pitch = 1;
-
     window.speechSynthesis.speak(text_speak);
-}
-
-
+}       
+  
 function wishMe() {
     var day = new Date();
     var hour = day.getHours();
@@ -26,7 +20,7 @@ function wishMe() {
     } else {
         speak("Good Evening Sir...");
     }
-}
+}      
 
 window.addEventListener('load', () => {
     speak("Initializing JARVIS...");
@@ -63,7 +57,7 @@ function takeCommand(message) {
     } else if (message.includes("open youtube")) {
         window.open("https://youtube.com", "_blank");
         speak("Opening Youtube...");
-        // for opening facebook  
+        // for opening facebook
     } else if (message.includes("open facebook")) {
         window.open("https://facebook.com", "_blank");
         speak("Opening Facebook...");
@@ -600,7 +594,6 @@ function takeCommand(message) {
     }
 
 }
-
 
 const btn = document.querySelector('.talk');
 const content = document.querySelector('.content');
