@@ -95,7 +95,7 @@ const commandDB = [
       window.open(`https://www.google.com/search?q=${msg.replace(/ /g, "+")}`, "_blank");
       return "This is what I found on the internet regarding " + msg;
     }
-  },
+  },    
   {
     keywords: ['wikipedia'],
     action: (msg) => {
