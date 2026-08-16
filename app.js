@@ -11,7 +11,7 @@ function speak(text) {
   
 function wishMe() {
     var day = new Date();
-    var hour = day.getHours();
+    var hour = day.getHours();  
 
     if (hour >= 0 && hour < 12) {
         speak("Good Morning Boss...");
