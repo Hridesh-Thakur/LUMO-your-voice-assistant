@@ -22,7 +22,7 @@ function wishMe() {
     }
 }      
 
-window.addEventListener('load', () => {
+window.addEventListener('load', () => {   
     speak("Initializing JARVIS...");
     wishMe();
 });
