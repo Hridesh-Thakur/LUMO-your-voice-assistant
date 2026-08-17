@@ -5,7 +5,7 @@ const content = document.querySelector('.content');
 // then create an API key (restrict it to your domain for safety). Paste it below.
 // Without a key, "play <song>" will still work but opens YouTube search results
 // instead of playing the song directly.
-const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0'; 
+const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';  
 
 // ================= EMBEDDED YOUTUBE PLAYER =================
 // Songs play INSIDE this page (same tab) using YouTube's official IFrame
