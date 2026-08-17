@@ -1,7 +1,7 @@
 const btn = document.querySelector('.talk'); 
 const content = document.querySelector('.content');  
 
-// Get a free key from https://console.cloud.google.com — enable "YouTube Data API v3",
+// Get a free key from https://console.cloud.google.com — enable "YouTube Data API v3", 
 // then create an API key (restrict it to your domain for safety). Paste it below.
 // Without a key, "play <song>" will still work but opens YouTube search results 
 // instead of playing the song directly.
