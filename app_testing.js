@@ -1,4 +1,4 @@
-const btn = document.querySelector('.talk');
+const btn = document.querySelector('.talk'); 
 const content = document.querySelector('.content');
 
 // Get a free key from https://console.cloud.google.com — enable "YouTube Data API v3",
