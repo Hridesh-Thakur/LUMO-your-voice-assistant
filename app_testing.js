@@ -16,7 +16,7 @@ const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';
 let ytPlayer = null;
 let ytApiReady = false;
 let pendingVideoId = null;  
-let lastAttemptedVideoId = null;
+let lastAttemptedVideoId = null; 
 
 window.onYouTubeIframeAPIReady = function () { 
   ytApiReady = true;
