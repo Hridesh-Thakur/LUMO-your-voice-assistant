@@ -9,7 +9,7 @@ const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';
 
 // ================= EMBEDDED YOUTUBE PLAYER =================
 // Songs play INSIDE this page (same tab) using YouTube's official IFrame 
-// Player API. This is what makes "next song" reuse the same player instead
+// Player API. This is what makes "next song" reuse the same player instead  
 // of opening a new tab, and it's the only way volume commands can actually 
 // work — a separately opened tab is a different origin and can't be   
 // controlled from here at all.
