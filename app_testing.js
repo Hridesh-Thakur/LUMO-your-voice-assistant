@@ -17,7 +17,7 @@ let ytPlayer = null;
 let ytApiReady = false;
 let pendingVideoId = null;  
 let lastAttemptedVideoId = null; 
-  
+   
 window.onYouTubeIframeAPIReady = function () { 
   ytApiReady = true;
   ytPlayer = new YT.Player('yt-player', {
