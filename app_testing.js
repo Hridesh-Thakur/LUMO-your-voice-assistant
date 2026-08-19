@@ -39,7 +39,7 @@ window.onYouTubeIframeAPIReady = function () {
         if (lastAttemptedVideoId) {
           speak("That video can't be played here, opening it on YouTube instead.");
           window.open(`https://www.youtube.com/watch?v=${lastAttemptedVideoId}`, '_blank');
-          lastAttemptedVideoId = null;
+          lastAttemptedVideoId = null; 
         }
       }
     }
