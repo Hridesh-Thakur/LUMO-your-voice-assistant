@@ -24,7 +24,7 @@ window.onYouTubeIframeAPIReady = function () {
     height: '200',
     width: '340',
     videoId: '',
-    playerVars: { autoplay: 1, origin: window.location.origin },
+    playerVars: { autoplay: 1, origin: window.location.origin }, 
     events: {
       onReady: () => {
         if (pendingVideoId) {
