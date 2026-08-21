@@ -9,7 +9,7 @@ function speak(text) {
   window.speechSynthesis.speak(text_speak); 
 }
   
-function wishMe() {
+function wishMe() { 
   const hour = new Date().getHours();
   if (hour < 12) speak("Good Morning Boss...How may I help you?");
   else if (hour < 17) speak("Good Afternoon Master...How may I help you?");
