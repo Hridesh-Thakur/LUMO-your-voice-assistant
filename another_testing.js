@@ -46,7 +46,7 @@ const commandDB = [
     action: () => "The current time is " + new Date().toLocaleString(undefined, { hour: "numeric", minute: "numeric" })
   },
   {
-    keywords: ['date'],
+    keywords: ['date'], 
     action: () => "Today's date is " + new Date().toLocaleString(undefined, { month: "short", day: "numeric" })
   },
 
