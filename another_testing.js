@@ -24,7 +24,7 @@ const commandDB = [
   { keywords: ['open youtube'], action: () => { window.open("https://youtube.com", "_blank"); return "Opening Youtube..."; } },
   { keywords: ['open facebook'], action: () => { window.open("https://facebook.com", "_blank"); return "Opening Facebook..."; } }, 
   { keywords: ['open chat gpt'], action: () => { window.open("https://chatgpt.com", "_blank"); return "Opening ChatGPT..."; } },
-  { keywords: ['open cloude'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
+  { keywords: ['open cloude'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } }, 
   { keywords: ['open cloud'], action: () => { window.open("https://claude.ai/", "_blank"); return "Opening Cloude..."; } },
   { keywords: ['calculator'], action: () => { window.open('https://www.google.com/search?q=calculator', '_blank'); return "Opening Calculator"; } }, 
   {
