@@ -38,7 +38,7 @@ const commandDB = [
     keywords: ['wikipedia'],
     action: (msg) => {
       window.open(`https://en.wikipedia.org/wiki/${msg.replace("wikipedia", "").trim()}`, "_blank");
-      return "This is what I found on Wikipedia regarding " + msg;
+      return "This is what I found on Wikipedia regarding " + msg; 
     }
   },
   {
