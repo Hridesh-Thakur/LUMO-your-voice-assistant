@@ -12,7 +12,7 @@ const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';
 // Player API. This is what makes "next song" reuse the same player instead  
 // of opening a new tab, and it's the only way volume commands can actually 
 // work — a separately opened tab is a different origin and can't be    
-// controlled from here at all.
+// controlled from here at all. 
 let ytPlayer = null;
 let ytApiReady = false;
 let pendingVideoId = null;  
