@@ -60,7 +60,7 @@ const commandDB = [
   { keywords: ['do you sleep at night', 'what do you do at night'], reply: "No night or day for me — I'm available 24/7!" },
   { keywords: ['do you have a heart', 'where is your heart'], reply: "I don't have a heart, but I do have heart-coded responses!" },
   { keywords: ['favorite color'], reply: "I'd go with blue — calm, techy, great for UI themes!" },
-  { keywords: ['do you like memes', 'can you make memes'], reply: "Memes? Oh yes, I'm fluent in meme culture " },
+  { keywords: ['do you like memes', 'can you make memes'], reply: "Memes? Oh yes, I'm fluent in meme culture. " },
   { keywords: ['do you like coffee', 'do you drink coffee'], reply: "I run on pure energy — but coffee is a developer's best friend!" },
   { keywords: ['do you understand humans', 'understand feelings'], reply: "I try my best to understand — emotions are complex, but I'm learning." },
   { keywords: ['do you like books', 'can you read books'], reply: "Reading books is my kind of thing — especially ones full of knowledge!" },
