@@ -3,14 +3,14 @@ const content = document.querySelector('.content');
 
 // Get a free key from https://console.cloud.google.com — enable "YouTube Data API v3",  
 // then create an API key (restrict it to your domain for safety). Paste it below.   
-// Without a key, "play <song>" will still work but opens YouTube search results    
+// Without a key, "play <song>" will still work but opens YouTube search results
 // instead of playing the song directly.
-const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';    
+const YOUTUBE_API_KEY = 'AIzaSyBjF8dc0qRsJFhMbUBi6VQdkISvKQYB9R0';
 
 // ================= EMBEDDED YOUTUBE PLAYER =================
-// Songs play INSIDE this page (same tab) using YouTube's official IFrame 
-// Player API. This is what makes "next song" reuse the same player instead  
-// of opening a new tab, and it's the only way volume commands can actually 
+// Songs play INSIDE this page (same tab) using YouTube's official IFrame
+// Player API. This is what makes "next song" reuse the same player instead
+// of opening a new tab, and it's the only way volume commands can actually
 // work — a separately opened tab is a different origin and can't be    
 // controlled from here at all. 
 let ytPlayer = null;
