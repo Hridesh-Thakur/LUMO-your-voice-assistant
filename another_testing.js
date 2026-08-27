@@ -15,7 +15,7 @@ function wishMe() {
   else if (hour < 17) speak("Good Afternoon Master...How may I help you?");  
   else speak("Good Evening Sir...How may I help you?");     
 }  
- 
+  
 // ================= COMMAND DATABASE =================
 const commandDB = [
   { keywords: ['hey', 'hello'], reply: "Hello Sir, How May I Help You?" },
