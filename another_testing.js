@@ -8,7 +8,7 @@ function speak(text) {
   text_speak.pitch = 1;
   window.speechSynthesis.speak(text_speak);
 } 
-
+ 
 function wishMe() { 
   const hour = new Date().getHours();  
   if (hour < 12) speak("Good Morning Boss...How may I help you?");
