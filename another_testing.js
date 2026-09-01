@@ -7,7 +7,7 @@ function speak(text) {
   text_speak.volume = 1;  
   text_speak.pitch = 1;
   window.speechSynthesis.speak(text_speak);
-}        
+}         
  
 function wishMe() { 
   const hour = new Date().getHours();  
