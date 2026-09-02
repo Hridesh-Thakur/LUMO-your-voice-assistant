@@ -1,4 +1,4 @@
-// L U M O
+// L U M O - 
 const btn = document.querySelector('.talk'); 
 const content = document.querySelector('.content');
 
