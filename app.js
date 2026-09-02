@@ -1,7 +1,7 @@
 // Follow Hridesh-Thakur 
 const btn = document.querySelector('.talk');
 const content = document.querySelector('.content');
-             
+
 function speak(text) { 
     const text_speak = new SpeechSynthesisUtterance(text);
     text_speak.rate = 1;    
