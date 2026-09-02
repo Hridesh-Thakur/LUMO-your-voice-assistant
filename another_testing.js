@@ -16,7 +16,7 @@ function wishMe() {
   else speak("Good Evening Sir...How may I help you?");
 } 
 
-// ================= COMMAND DATABASE ================= 
+// ================= COMMAND DATABASE =================  
 const commandDB = [
   { keywords: ['hey', 'hello'], reply: "Hello Sir, How May I Help You?" },
   { keywords: ['open google'], action: () => { window.open("https://google.com", "_blank"); return "Opening Google..."; } },  
