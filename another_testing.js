@@ -1,4 +1,4 @@
-// L U M O - YOUR VO
+// L U M O - YOUR VOIC
 const btn = document.querySelector('.talk'); 
 const content = document.querySelector('.content');
 
